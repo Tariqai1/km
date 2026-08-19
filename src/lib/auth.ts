@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { jwtVerify, SignJWT } from 'jose';
+import { jwtVerify } from 'jose';
 import bcrypt from 'bcryptjs';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-key-for-dev';
@@ -20,7 +20,7 @@ export const verifyTokenEdge = async (token: string): Promise<TokenPayload | nul
   try {
     const { payload } = await jwtVerify(token, secretKey);
     return payload as unknown as TokenPayload;
-  } catch (error) {
+  } catch {
     return null;
   }
 };
