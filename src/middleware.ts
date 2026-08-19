@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
           headers: requestHeaders,
         },
       });
-    } catch (error) {
+    } catch {
       return handleUnauthorized(request, isApiAdminRoute);
     }
   }

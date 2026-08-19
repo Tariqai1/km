@@ -6,7 +6,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET || 'mOEj9H8QBBMNkdif3M8UMiPtrzY',
 });
 
-export const generateSignature = (paramsToSign: Record<string, any>) => {
+export const generateSignature = (paramsToSign: Record<string, string | number | boolean>) => {
   const apiSecret = process.env.CLOUDINARY_API_SECRET || 'mOEj9H8QBBMNkdif3M8UMiPtrzY';
   const signature = cloudinary.utils.api_sign_request(paramsToSign, apiSecret);
   return signature;

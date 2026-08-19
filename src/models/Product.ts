@@ -46,7 +46,7 @@ const productSchema = new Schema<IProduct>(
         },
       ],
       validate: [
-        (val: any[]) => val.length <= 8,
+        (val: unknown[]) => val.length <= 8,
         'Cannot exceed 8 images',
       ],
     },
