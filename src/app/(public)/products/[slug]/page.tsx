@@ -18,38 +18,42 @@ import { notFound } from "next/navigation";
 const getProductData = async (slug: string) => {
   try {
     await dbConnect();
-    const product = await Product.findOne({ slug }).populate('category').lean() as any;
+    const product = await Product.findOne({ slug }).populate("category").lean() as any;
     if (!product) return null;
 
-    const catName = typeof product.category === 'object' && product.category !== null
-      ? product.category.name
-      : "Machinery";
+    const catName =
+      typeof product.category === "object" && product.category !== null
+        ? product.category.name
+        : "Machinery";
 
     let specsObj: Record<string, string> = {};
     if (product.specifications) {
       if (product.specifications instanceof Map) {
         specsObj = Object.fromEntries(product.specifications);
-      } else if (typeof product.specifications === 'object') {
+      } else if (typeof product.specifications === "object") {
         specsObj = { ...product.specifications };
       }
     }
 
     const cleanImages = Array.isArray(product.images)
       ? product.images.map((img: any) => ({
-          url: String(img?.url || ''),
-          cloudinaryId: String(img?.cloudinaryId || ''),
+          url: String(img?.url || ""),
+          cloudinaryId: String(img?.cloudinaryId || ""),
         }))
       : [{ url: "/placeholder.jpg", cloudinaryId: "" }];
 
     return {
-      title: String(product.title || ''),
-      slug: String(product.slug || ''),
-      categoryName: String(catName || ''),
-      description: String(product.description || "High performance industrial machinery manufactured with precision engineering."),
+      title: String(product.title || ""),
+      slug: String(product.slug || ""),
+      categoryName: String(catName || ""),
+      description: String(
+        product.description ||
+          "High performance industrial machinery manufactured with precision engineering."
+      ),
       features: Array.isArray(product.features) ? product.features.map(String) : [],
       specifications: specsObj,
       images: cleanImages.length > 0 ? cleanImages : [{ url: "/placeholder.jpg", cloudinaryId: "" }],
-      brochureUrl: String(product.brochureUrl || "")
+      brochureUrl: String(product.brochureUrl || ""),
     };
   } catch (err) {
     console.error("Error fetching product data:", err);
@@ -57,21 +61,29 @@ const getProductData = async (slug: string) => {
   }
 };
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const resolvedParams = await params;
   const product = await getProductData(resolvedParams.slug);
   if (!product) {
     return {
-      title: "Product Not Found | K.M. Engineering Works"
+      title: "Product Not Found | K.M. Engineering Works",
     };
   }
   return {
     title: `${product.title} | K.M. Engineering Works`,
-    description: `High quality ${product.title} manufactured by K.M. Engineering Works. Built for durability and efficiency.`
+    description: `High quality ${product.title} manufactured by K.M. Engineering Works. Built for durability and efficiency.`,
   };
 }
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const resolvedParams = await params;
   const product = await getProductData(resolvedParams.slug);
 
@@ -82,30 +94,34 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": product.title,
-    "description": product.description.replace(/<[^>]*>?/gm, ""),
-    "brand": {
+    name: product.title,
+    description: product.description.replace(/<[^>]*>?/gm, ""),
+    brand: {
       "@type": "Brand",
-      "name": "K.M. Engineering Works"
-    }
+      name: "K.M. Engineering Works",
+    },
   };
 
   return (
     <div className="bg-slate-50 min-h-screen py-10">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-        
         {/* Navigation Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8 bg-white py-2.5 px-4 rounded-xl border border-slate-200/60 shadow-xs w-fit">
-          <Link href="/" className="hover:text-brand-primary font-medium">Home</Link>
+          <Link href="/" className="hover:text-brand-primary font-medium">
+            Home
+          </Link>
           <ChevronRight className="w-4 h-4 text-slate-400" />
-          <Link href="/products" className="hover:text-brand-primary font-medium">Products</Link>
+          <Link href="/products" className="hover:text-brand-primary font-medium">
+            Products
+          </Link>
           <ChevronRight className="w-4 h-4 text-slate-400" />
-          <span className="text-brand-primary font-semibold truncate max-w-[200px] sm:max-w-none">{product.title}</span>
+          <span className="text-brand-primary font-semibold truncate max-w-[200px] sm:max-w-none">
+            {product.title}
+          </span>
         </nav>
 
         {/* 12-Column Responsive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 items-start">
-          
           {/* Left Column: Image Gallery & Trust Features */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
             <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
@@ -147,14 +163,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
           {/* Right Column: Product Info & Quote Form */}
           <div className="lg:col-span-7 space-y-8">
-            
             {/* Title & Badge Header Card */}
             <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
               <div className="flex flex-wrap items-center gap-2.5">
-                <Badge variant="secondary" className="bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/15 font-semibold px-3 py-1 text-xs">
+                <Badge
+                  variant="secondary"
+                  className="bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/15 font-semibold px-3 py-1 text-xs"
+                >
                   {product.categoryName}
                 </Badge>
-                <span className="text-xs text-slate-400 font-medium">Model Code: KM-{product.slug.toUpperCase().slice(0, 8)}</span>
+                <span className="text-xs text-slate-400 font-medium">
+                  Model Code: KM-{product.slug.toUpperCase().slice(0, 8)}
+                </span>
               </div>
 
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display text-brand-dark tracking-tight leading-tight">
@@ -163,14 +183,23 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                <Button asChild size="lg" className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-6 shadow-md">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-6 shadow-md"
+                >
                   <a href="#quote-form">
                     <PhoneCall className="w-4 h-4 mr-2" /> Get Instant Quote
                   </a>
                 </Button>
 
                 {product.brochureUrl && (
-                  <Button asChild variant="outline" size="lg" className="border-slate-300 hover:bg-slate-50 font-medium">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="border-slate-300 hover:bg-slate-50 font-medium"
+                  >
                     <a href={product.brochureUrl} target="_blank" rel="noopener noreferrer">
                       <FileText className="w-4 h-4 mr-2 text-slate-600" /> Download Brochure
                     </a>
@@ -184,7 +213,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               <h3 className="text-lg font-bold font-display text-brand-dark pb-2 border-b border-slate-100">
                 Machine Overview & Description
               </h3>
-              <div 
+              <div
                 className="prose max-w-none text-slate-600 text-sm sm:text-base leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: product.description }}
               />
@@ -198,9 +227,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
                   {product.features.map((feature: string, idx: number) => (
-                    <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100/80">
+                    <div
+                      key={idx}
+                      className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100/80"
+                    >
                       <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="text-sm font-medium text-slate-800 leading-snug">{feature}</span>
+                      <span className="text-sm font-medium text-slate-800 leading-snug">
+                        {feature}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -220,21 +254,27 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             )}
 
             {/* Inquiry & Quote Form */}
-            <div id="quote-form" className="bg-white p-6 sm:p-8 rounded-2xl border border-brand-primary/20 shadow-md ring-1 ring-brand-primary/5">
+            <div
+              id="quote-form"
+              className="bg-white p-6 sm:p-8 rounded-2xl border border-brand-primary/20 shadow-md ring-1 ring-brand-primary/5"
+            >
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold">
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold font-display text-brand-dark">Request a Fast Quotation</h3>
-                  <p className="text-xs text-slate-500">Fill in your details below for factory direct pricing.</p>
+                  <h3 className="text-xl font-bold font-display text-brand-dark">
+                    Request a Fast Quotation
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Fill in your details below for factory direct pricing.
+                  </p>
                 </div>
               </div>
               <div className="mt-6">
                 <InquiryForm productId={product.slug} productName={product.title} />
               </div>
             </div>
-
           </div>
         </div>
 
@@ -245,25 +285,31 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               <h2 className="text-2xl sm:text-3xl font-bold font-display text-brand-dark">
                 Explore More Machinery
               </h2>
-              <p className="text-sm text-slate-500 mt-1">High precision equipment for industrial food & bakery processing.</p>
+              <p className="text-sm text-slate-500 mt-1">
+                High precision equipment for industrial food & bakery processing.
+              </p>
             </div>
             <Button asChild variant="outline" className="hidden sm:inline-flex border-slate-300">
               <Link href="/products">View All Machines</Link>
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ProductCard product={{
-              title: "Industrial Peeler Machine",
-              slug: "industrial-peeler",
-              category: product.categoryName || "Food Processing",
-              images: []
-            }} />
-            <ProductCard product={{
-              title: "Fruit Pulper Machine",
-              slug: "fruit-pulper",
-              category: product.categoryName || "Food Processing",
-              images: []
-            }} />
+            <ProductCard
+              product={{
+                title: "Industrial Peeler Machine",
+                slug: "industrial-peeler",
+                category: product.categoryName || "Food Processing",
+                images: [],
+              }}
+            />
+            <ProductCard
+              product={{
+                title: "Fruit Pulper Machine",
+                slug: "fruit-pulper",
+                category: product.categoryName || "Food Processing",
+                images: [],
+              }}
+            />
           </div>
         </div>
 
@@ -271,14 +317,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <div className="mt-16">
           <MachineReviews />
         </div>
-
       </div>
 
       {/* JSON-LD Product Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd)
+          __html: JSON.stringify(jsonLd),
         }}
       />
     </div>
