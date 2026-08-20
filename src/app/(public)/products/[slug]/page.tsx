@@ -79,11 +79,22 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "description": product.description.replace(/<[^>]*>?/gm, ""),
+    "brand": {
+      "@type": "Brand",
+      "name": "K.M. Engineering Works"
+    }
+  };
+
   return (
     <div className="bg-slate-50 min-h-screen py-10">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         
-        {/* Breadcrumb */}
+        {/* Navigation Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8 bg-white py-2.5 px-4 rounded-xl border border-slate-200/60 shadow-xs w-fit">
           <Link href="/" className="hover:text-brand-primary font-medium">Home</Link>
           <ChevronRight className="w-4 h-4 text-slate-400" />
@@ -95,14 +106,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         {/* 12-Column Responsive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16 items-start">
           
-          {/* Left Column: Image Gallery & Trust Features (lg:col-span-5) */}
+          {/* Left Column: Image Gallery & Trust Features */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-            {/* Gallery Card */}
             <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
               <ImageGallery images={product.images} />
             </div>
 
-            {/* Quality & Trust Box */}
             <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-3.5">
               <div className="flex items-center gap-3 text-sm text-slate-700">
                 <div className="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
@@ -136,7 +145,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             </div>
           </div>
 
-          {/* Right Column: Product Info & Quote Form (lg:col-span-7) */}
+          {/* Right Column: Product Info & Quote Form */}
           <div className="lg:col-span-7 space-y-8">
             
             {/* Title & Badge Header Card */}
@@ -269,16 +278,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": product.title,
-            "description": product.description.replace(/<[^>]*>?/gm, ''),
-            "brand": {
-              "@type": "Brand",
-              "name": "K.M. Engineering Works"
-            }
-          })
+          __html: JSON.stringify(jsonLd)
         }}
       />
     </div>
