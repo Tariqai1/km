@@ -120,73 +120,78 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 </div>
                 <div>
                   <div className="font-bold text-slate-900">Pan-India Dispatch</div>
-                  <div className="text-xs text-slate-500">Secure packaging & doorstep freight support</div>
+                  <div className="text-xs text-slate-500">Safe packaging and verified logistics delivery</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-9 h-9 rounded-lg bg-orange-50 text-brand-accent flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-amber-50 text-brand-accent flex items-center justify-center shrink-0">
                   <Wrench className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-slate-900">1 Year Warranty & Support</div>
-                  <div className="text-xs text-slate-500">Technical guidance and spare parts availability</div>
+                  <div className="font-bold text-slate-900">1-Year Warranty & Service</div>
+                  <div className="text-xs text-slate-500">Comprehensive warranty with full spare parts support</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Product Overview, Features, Specs & Quote (lg:col-span-7) */}
+          {/* Right Column: Product Info & Quote Form (lg:col-span-7) */}
           <div className="lg:col-span-7 space-y-8">
             
-            {/* Title & Header Section */}
+            {/* Title & Badge Header Card */}
             <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
               <div className="flex flex-wrap items-center gap-2.5">
-                <Badge className="bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 border-none px-3.5 py-1 text-xs font-semibold rounded-full">
+                <Badge variant="secondary" className="bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/15 font-semibold px-3 py-1 text-xs">
                   {product.categoryName}
                 </Badge>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Customizable Capacity
-                </span>
+                <span className="text-xs text-slate-400 font-medium">Model Code: KM-{product.slug.toUpperCase().slice(0, 8)}</span>
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-extrabold font-display text-brand-dark tracking-tight leading-snug">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display text-brand-dark tracking-tight leading-tight">
                 {product.title}
               </h1>
 
-              {/* Description */}
-              <div 
-                className="prose prose-slate max-w-none text-slate-600 leading-relaxed text-sm sm:text-base border-t border-slate-100 pt-4"
-                dangerouslySetInnerHTML={{ __html: product.description }}
-              />
-
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-3.5 pt-2">
-                <Button asChild size="lg" className="bg-brand-accent hover:bg-brand-accent-hover text-white font-semibold shadow-md shadow-brand-accent/20">
-                  <a href="#quote-form">Get Instant Quote</a>
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Button asChild size="lg" className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-6 shadow-md">
+                  <a href="#quote-form">
+                    <PhoneCall className="w-4 h-4 mr-2" /> Get Instant Quote
+                  </a>
                 </Button>
+
                 {product.brochureUrl && (
-                  <Button asChild variant="outline" size="lg" className="border-slate-300 text-slate-700 hover:bg-slate-50">
-                    <a href={product.brochureUrl} target="_blank" rel="noreferrer">
-                      <FileText className="w-4 h-4 mr-2 text-brand-primary" /> Download Brochure
+                  <Button asChild variant="outline" size="lg" className="border-slate-300 hover:bg-slate-50 font-medium">
+                    <a href={product.brochureUrl} target="_blank" rel="noopener noreferrer">
+                      <FileText className="w-4 h-4 mr-2 text-slate-600" /> Download Brochure
                     </a>
                   </Button>
                 )}
               </div>
             </div>
 
-            {/* Key Features */}
+            {/* Description Card */}
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+              <h3 className="text-lg font-bold font-display text-brand-dark pb-2 border-b border-slate-100">
+                Machine Overview & Description
+              </h3>
+              <div 
+                className="prose max-w-none text-slate-600 text-sm sm:text-base leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
+            </div>
+
+            {/* Key Features & Benefits */}
             {product.features && product.features.length > 0 && (
-              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
-                <h3 className="text-xl font-bold font-display text-brand-dark mb-4 flex items-center gap-2">
-                  Key Features & Highlights
+              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <h3 className="text-lg font-bold font-display text-brand-dark pb-2 border-b border-slate-100">
+                  Key Technical Features
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
                   {product.features.map((feature: string, idx: number) => (
-                    <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100 text-slate-800 text-sm">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span className="font-medium leading-relaxed">{feature}</span>
+                    <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100/80">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                      <span className="text-sm font-medium text-slate-800 leading-snug">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -195,8 +200,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
             {/* Technical Specifications Table */}
             {product.specifications && Object.keys(product.specifications).length > 0 && (
-              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
-                <h3 className="text-xl font-bold font-display text-brand-dark mb-4">
+              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <h3 className="text-lg font-bold font-display text-brand-dark pb-2 border-b border-slate-100">
                   Technical Specifications
                 </h3>
                 <div className="overflow-hidden rounded-xl border border-slate-200">
@@ -251,10 +256,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               images: []
             }} />
           </div>
+        </div>
+
         {/* Verified Customer Reviews for Machinery */}
         <div className="mt-16">
           <MachineReviews />
         </div>
+
       </div>
 
       {/* JSON-LD Product Schema */}
