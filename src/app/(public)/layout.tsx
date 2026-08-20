@@ -19,23 +19,22 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface NavbarProps {
-  companyName?: string;
-  logoUrl?: string;
+interface PublicLayoutProps {
+  children: React.ReactNode;
 }
 
-export default function Navbar({
-  companyName = "K.M. Engineering Works",
-  logoUrl,
-}: NavbarProps) {
+export default function PublicLayout({ children }: PublicLayoutProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
+  const companyName = "K.M. Engineering Works";
+  const logoUrl = undefined;
 
   const navLinks = [
     { name: "Home", href: "/", icon: Home },
     { name: "Products & Machines", href: "/products", icon: Package, badge: "Catalog" },
     { name: "About Us", href: "/about", icon: Building2 },
-    { name: "Contact Us",href: "/contact", icon: PhoneCall },
+    { name: "Contact Us", href: "/contact", icon: PhoneCall },
   ];
 
   return (
@@ -70,7 +69,7 @@ export default function Navbar({
             </div>
           </Link>
 
-          {/* Desktop Navigation Menu (Visible >1024px) */}
+          {/* Desktop Navigation Menu */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navLinks.map((item) => {
               const isActive =
@@ -110,7 +109,7 @@ export default function Navbar({
             </Button>
           </div>
 
-          {/* Mobile & Tablet Hamburger Trigger (<1024px) */}
+          {/* Mobile & Tablet Hamburger Trigger */}
           <Button
             variant="outline"
             size="icon"
@@ -259,6 +258,9 @@ export default function Navbar({
           </p>
         </div>
       </aside>
+
+      {/* Main Pages Content */}
+      <main>{children}</main>
     </>
   );
 }
