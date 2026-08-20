@@ -4,7 +4,6 @@ import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 interface Product {

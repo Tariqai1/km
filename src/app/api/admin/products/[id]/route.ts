@@ -5,6 +5,26 @@ import { productSchema } from '@/lib/validations';
 import { ZodError } from 'zod';
 import cloudinary from '@/lib/cloudinary';
 
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    await dbConnect();
+    const { id } = await params;
+    
+    const product = await Product.findById(id).populate('category', 'name slug').lean();
+    
+    if (!product) {
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+    
+    return NextResponse.json(product);
+  } catch {
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -14,11 +34,19 @@ export async function PUT(
     const { id } = await params;
     const body = await req.json();
     
-    const validatedData = productSchema.parse(body);
+    // Use partial validation so status toggle and partial updates work
+    const validatedData = productSchema.partial().parse(body);
+    
+    // Map categoryId to category field for Mongoose
+    const updateData: Record<string, unknown> = { ...validatedData };
+    if (validatedData.categoryId) {
+      updateData.category = validatedData.categoryId;
+      delete updateData.categoryId;
+    }
     
     const product = await Product.findByIdAndUpdate(
       id,
-      { ...validatedData, category: validatedData.categoryId },
+      updateData,
       { new: true, runValidators: true }
     );
     
@@ -50,7 +78,7 @@ export async function DELETE(
     
     // Delete images from cloudinary
     if (product.images && product.images.length > 0) {
-      const deletePromises = product.images.map(img => {
+      const deletePromises = product.images.map((img: { cloudinaryId?: string }) => {
         if (img.cloudinaryId) {
           return cloudinary.uploader.destroy(img.cloudinaryId);
         }
@@ -62,7 +90,7 @@ export async function DELETE(
     await Product.findByIdAndDelete(id);
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

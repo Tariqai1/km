@@ -412,7 +412,7 @@ export default function SettingsPage() {
                 <CardContent className="space-y-4">
                   {companyStats.length === 0 ? (
                     <div className="text-center py-8 text-slate-400 text-sm">
-                      No metrics added. Click "Add Metric" to create one.
+                      No metrics added. Click &quot;Add Metric&quot; to create one.
                     </div>
                   ) : (
                     companyStats.map((stat, idx) => (

@@ -21,10 +21,10 @@ export async function GET() {
     ]);
     
     return NextResponse.json({
-      totalEnquiries,
-      newEnquiries,
+      totalLeads: totalEnquiries,
+      newLeads: newEnquiries,
       activeProducts,
-      totalCategories
+      categories: totalCategories
     });
   } catch (error) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

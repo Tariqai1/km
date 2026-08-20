@@ -41,16 +41,19 @@ export function DialogTrigger({
   children,
   asChild,
 }: {
-  children: React.ReactElement<any>;
+  children: React.ReactElement<Record<string, unknown>>;
   asChild?: boolean;
 }) {
   const context = React.useContext(DialogContext);
   if (!context) throw new Error("DialogTrigger must be used within a Dialog");
 
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement<any>, {
+    return React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
       onClick: (e: React.MouseEvent) => {
-        (children.props as any)?.onClick?.(e);
+        const childProps = children.props as Record<string, unknown>;
+        if (typeof childProps.onClick === 'function') {
+          (childProps.onClick as (e: React.MouseEvent) => void)(e);
+        }
         context.setOpen(true);
       },
     });
@@ -130,16 +133,19 @@ export function DialogClose({
   children,
   asChild,
 }: {
-  children: React.ReactElement<any>;
+  children: React.ReactElement<Record<string, unknown>>;
   asChild?: boolean;
 }) {
   const context = React.useContext(DialogContext);
   if (!context) throw new Error("DialogClose must be used within a Dialog");
 
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement<any>, {
+    return React.cloneElement(children as React.ReactElement<Record<string, unknown>>, {
       onClick: (e: React.MouseEvent) => {
-        (children.props as any)?.onClick?.(e);
+        const childProps = children.props as Record<string, unknown>;
+        if (typeof childProps.onClick === 'function') {
+          (childProps.onClick as (e: React.MouseEvent) => void)(e);
+        }
         context.setOpen(false);
       },
     });

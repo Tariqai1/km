@@ -43,7 +43,7 @@ export default function ProductsManager() {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/products");
+      const res = await fetch("/api/admin/products");
       if (res.ok) {
         const data = await res.json();
         setProducts(data.products || data);
@@ -82,19 +82,22 @@ export default function ProductsManager() {
   };
 
   const handleToggleStatus = async (id: string, currentStatus: string) => {
-    const newStatus = currentStatus === "active" ? "draft" : "active";
+    const newStatus = currentStatus === "Active" ? "Draft" : "Active";
     
     // Optimistic update
     setProducts(products.map(p => p._id === id ? { ...p, status: newStatus } : p));
     
     try {
-      await fetch(`/api/admin/products/${id}`, {
+      const res = await fetch(`/api/admin/products/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus })
       });
-    } catch (error) {
-      console.error("Status toggle error:", error);
+      if (!res.ok) {
+        // Revert on error
+        setProducts(products.map(p => p._id === id ? { ...p, status: currentStatus } : p));
+      }
+    } catch {
       // Revert on error
       setProducts(products.map(p => p._id === id ? { ...p, status: currentStatus } : p));
     }
@@ -172,13 +175,13 @@ export default function ProductsManager() {
                       </TableCell>
                       <TableCell>
                         {typeof product.category === 'object' && product.category !== null 
-                          ? (product.category as any).name 
+                          ? (product.category as { name: string }).name 
                           : "Unknown Category"}
                       </TableCell>
                       <TableCell>
                         <button onClick={() => handleToggleStatus(product._id, product.status)}>
-                          <Badge variant={product.status === "active" ? "default" : "secondary"} className={
-                            product.status === "active" ? "bg-emerald-500 hover:bg-emerald-600" : ""
+                          <Badge variant={product.status === "Active" ? "default" : "secondary"} className={
+                            product.status === "Active" ? "bg-emerald-500 hover:bg-emerald-600" : ""
                           }>
                             {product.status}
                           </Badge>
@@ -202,7 +205,7 @@ export default function ProductsManager() {
                               <DialogHeader>
                                 <DialogTitle>Delete Product</DialogTitle>
                                 <DialogDescription>
-                                  Are you sure you want to delete "{product.title}"? This action cannot be undone.
+                                  Are you sure you want to delete &quot;{product.title}&quot;? This action cannot be undone.
                                 </DialogDescription>
                               </DialogHeader>
                               <DialogFooter>

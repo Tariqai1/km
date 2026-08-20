@@ -4,6 +4,19 @@ import Product from '@/models/Product';
 import { productSchema } from '@/lib/validations';
 import { ZodError } from 'zod';
 
+export async function GET() {
+  try {
+    await dbConnect();
+    const products = await Product.find()
+      .populate('category', 'name slug')
+      .sort({ createdAt: -1 })
+      .lean();
+    return NextResponse.json(products);
+  } catch {
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 function slugify(str: string) {
   return str.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '');
 }

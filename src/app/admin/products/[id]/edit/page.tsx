@@ -49,7 +49,7 @@ export default function EditProductPage() {
       try {
         const [catsRes, prodRes] = await Promise.all([
           fetch("/api/categories"),
-          fetch(`/api/products?id=${productId}`) // Or specific admin endpoint if implemented
+          fetch(`/api/admin/products/${productId}`)
         ]);
 
         if (catsRes.ok) {
@@ -58,13 +58,12 @@ export default function EditProductPage() {
         }
 
         if (prodRes.ok) {
-          const data = await prodRes.json();
-          const product = data.product || data;
+          const product = await prodRes.json();
           
           if (product) {
             setTitle(product.title || "");
             setSlug(product.slug || "");
-            setCategoryId(typeof product.categoryId === 'object' ? product.categoryId._id : product.categoryId);
+            setCategoryId(typeof product.category === 'object' ? product.category._id : (product.category || ""));
             setDescription(product.description || "");
             setFeatures(product.features && product.features.length ? product.features : [""]);
             setSpecifications(product.specifications || {});
@@ -73,6 +72,8 @@ export default function EditProductPage() {
             setIsFeatured(product.isFeatured || false);
             setStatus(product.status || "Active");
           }
+        } else {
+          setError("Failed to load product data");
         }
       } catch (err) {
         console.error("Failed to fetch data");
