@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import TrustBadges from "@/components/shared/TrustBadges";
 import CategoryCard from "@/components/shared/CategoryCard";
 import ProductCard from "@/components/shared/ProductCard";
+import AboutSection from "@/components/shared/AboutSection";
+import MachineReviews from "@/components/shared/MachineReviews";
 import { Cog, ShieldCheck, Headphones } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -246,6 +248,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ABOUT COMPANY HERITAGE & INFRASTRUCTURE */}
+      <AboutSection />
+
       {/* COMPANY STATS SECTION */}
       <section className="py-16 bg-brand-primary text-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -347,6 +352,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* CLIENT REVIEWS & VERIFIED PERFORMANCE */}
+      <MachineReviews />
+
     </div>
   );
 }

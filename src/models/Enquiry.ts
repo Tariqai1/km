@@ -32,8 +32,7 @@ const enquirySchema = new Schema<IEnquiry>(
       type: String,
     },
     productInterest: {
-      type: Schema.Types.ObjectId,
-      ref: 'Product',
+      type: Schema.Types.Mixed,
     },
     message: {
       type: String,

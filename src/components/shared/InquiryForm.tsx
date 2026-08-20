@@ -28,7 +28,7 @@ export default function InquiryForm({ productId, productName }: InquiryFormProps
       phone: formData.get("phone") as string,
       email: (formData.get("email") as string) || "",
       companyName: (formData.get("companyName") as string) || "",
-      productInterest: productId || "",
+      productInterest: productName || productId || "",
       message: formData.get("message") as string,
       country: "India",
     };

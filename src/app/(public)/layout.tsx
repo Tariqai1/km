@@ -23,7 +23,7 @@ export default async function PublicLayout({
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar companyName={companyName} logoUrl={logoUrl} />
-      <main className="flex-grow pt-[72px]">
+      <main className="flex-grow pt-[2px]">
         {children}
       </main>
       <WhatsAppCTA />

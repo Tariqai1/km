@@ -66,7 +66,13 @@ export function DialogTrigger({
   );
 }
 
-export function DialogContent({ children, className }: { children: React.ReactNode, className?: string }) {
+export interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+  className?: string;
+  onOpenAutoFocus?: (e: any) => void;
+}
+
+export function DialogContent({ children, className, onOpenAutoFocus: _onOpenAutoFocus, ...props }: DialogContentProps) {
   const context = React.useContext(DialogContext)
   if (!context) throw new Error("DialogContent must be used within a Dialog")
   
@@ -98,7 +104,7 @@ export function DialogContent({ children, className }: { children: React.ReactNo
         className="fixed inset-0 bg-background/80 backdrop-blur-sm transition-all duration-100" 
         onClick={() => setOpen(false)} 
       />
-      <div className={cn("relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-in fade-in-90 zoom-in-95 duration-200", className)}>
+      <div className={cn("relative z-50 grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg sm:rounded-lg animate-in fade-in-90 zoom-in-95 duration-200", className)} {...props}>
         {children}
         <button
           onClick={() => setOpen(false)}

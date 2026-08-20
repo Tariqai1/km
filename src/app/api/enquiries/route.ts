@@ -11,13 +11,31 @@ export async function POST(req: Request) {
     
     const validatedData = enquirySchema.parse(body);
     
-    const enquiry = await Enquiry.create(validatedData);
+    const enquiryData: Record<string, unknown> = {
+      name: validatedData.name.trim(),
+      phone: validatedData.phone.trim(),
+      message: validatedData.message.trim(),
+      country: validatedData.country || 'India',
+    };
+
+    if (validatedData.email && validatedData.email.trim()) {
+      enquiryData.email = validatedData.email.trim();
+    }
+    if (validatedData.companyName && validatedData.companyName.trim()) {
+      enquiryData.companyName = validatedData.companyName.trim();
+    }
+    if (validatedData.productInterest && validatedData.productInterest.trim()) {
+      enquiryData.productInterest = validatedData.productInterest.trim();
+    }
+    
+    const enquiry = await Enquiry.create(enquiryData);
     
     return NextResponse.json({ success: true, enquiry }, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof ZodError) {
       return NextResponse.json({ error: error.errors[0].message }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Enquiry creation error:', error);
+    return NextResponse.json({ error: error?.message || 'Internal Server Error' }, { status: 500 });
   }
 }

@@ -204,7 +204,9 @@ export default function AdminDashboard() {
                     <div>
                       <p className="font-medium text-sm">{enquiry.name}</p>
                       <p className="text-xs text-slate-500 truncate max-w-[150px]">
-                        {typeof enquiry.productInterest === 'object' ? (enquiry.productInterest as any)?.title : enquiry.productInterest}
+                        {typeof enquiry.productInterest === 'object' 
+                          ? (enquiry.productInterest as any)?.title || "General Inquiry"
+                          : enquiry.productInterest || "General Inquiry"}
                       </p>
                       <p className="text-xs text-slate-400 mt-1">{format(new Date(enquiry.createdAt), 'MMM dd, HH:mm')}</p>
                     </div>

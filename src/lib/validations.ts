@@ -30,11 +30,11 @@ export const categorySchema = z.object({
 });
 
 export const enquirySchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters long'),
-  phone: z.string().min(10, 'Phone must be at least 10 characters long'),
-  email: z.string().email('Invalid email address').optional().or(z.literal('')),
-  companyName: z.string().optional(),
-  productInterest: z.string().optional(),
-  message: z.string().min(10, 'Message must be at least 10 characters long'),
+  name: z.string().min(1, 'Name is required'),
+  phone: z.string().min(5, 'Please enter a valid phone number'),
+  email: z.string().email('Invalid email address').optional().or(z.literal('')).or(z.null()),
+  companyName: z.string().optional().or(z.literal('')).or(z.null()),
+  productInterest: z.string().optional().or(z.literal('')).or(z.null()),
+  message: z.string().min(1, 'Message is required'),
   country: z.string().default('India'),
 });

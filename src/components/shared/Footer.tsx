@@ -35,6 +35,11 @@ export default function Footer({ companyName = "K.M. Engineering Works", setting
                 </Link>
               </li>
               <li>
+                <Link href="/about" className="text-brand-steel hover:text-brand-accent transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
                 <Link href="/products" className="text-brand-steel hover:text-brand-accent transition-colors">
                   Products
                 </Link>

@@ -12,19 +12,34 @@ export async function PUT(req: Request) {
     let settings = await Settings.findOne();
 
     if (settings) {
-      settings.companyName = body.companyName ?? settings.companyName;
-      settings.logoUrl = body.logoUrl ?? settings.logoUrl;
-      settings.heroBannerUrl = body.heroBannerUrl ?? settings.heroBannerUrl;
-      settings.heroHeading = body.heroHeading ?? settings.heroHeading;
-      settings.heroSubheading = body.heroSubheading ?? settings.heroSubheading;
-      settings.primaryColor = body.primaryColor ?? settings.primaryColor;
-      settings.accentColor = body.accentColor ?? settings.accentColor;
-      settings.contactEmail = body.contactEmail ?? settings.contactEmail;
-      settings.contactPhone = body.contactPhone ?? settings.contactPhone;
-      settings.contactAddress = body.contactAddress ?? settings.contactAddress;
+      if (body.companyName !== undefined) settings.companyName = body.companyName;
+      if (body.logoUrl !== undefined) settings.logoUrl = body.logoUrl;
+      if (body.heroBannerUrl !== undefined) settings.heroBannerUrl = body.heroBannerUrl;
+      if (body.heroHeading !== undefined) settings.heroHeading = body.heroHeading;
+      if (body.heroSubheading !== undefined) settings.heroSubheading = body.heroSubheading;
+      if (body.primaryColor !== undefined) settings.primaryColor = body.primaryColor;
+      if (body.accentColor !== undefined) settings.accentColor = body.accentColor;
+      if (body.contactEmail !== undefined) settings.contactEmail = body.contactEmail;
+      if (body.contactPhone !== undefined) settings.contactPhone = body.contactPhone;
+      if (body.contactAddress !== undefined) settings.contactAddress = body.contactAddress;
       
       if (body.companyStats && Array.isArray(body.companyStats)) {
         settings.companyStats = body.companyStats;
+      }
+
+      // About page settings
+      if (body.aboutHeading !== undefined) settings.aboutHeading = body.aboutHeading;
+      if (body.aboutStory !== undefined) settings.aboutStory = body.aboutStory;
+      if (body.founderName !== undefined) settings.founderName = body.founderName;
+      if (body.founderTitle !== undefined) settings.founderTitle = body.founderTitle;
+      if (body.founderQuote !== undefined) settings.founderQuote = body.founderQuote;
+
+      if (body.aboutHighlights && Array.isArray(body.aboutHighlights)) {
+        settings.aboutHighlights = body.aboutHighlights;
+      }
+
+      if (body.machineryCapabilities && Array.isArray(body.machineryCapabilities)) {
+        settings.machineryCapabilities = body.machineryCapabilities;
       }
       
       await settings.save();

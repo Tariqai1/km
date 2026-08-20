@@ -5,6 +5,7 @@ import ImageGallery from "@/components/shared/ImageGallery";
 import SpecTable from "@/components/shared/SpecTable";
 import InquiryForm from "@/components/shared/InquiryForm";
 import ProductCard from "@/components/shared/ProductCard";
+import MachineReviews from "@/components/shared/MachineReviews";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -250,8 +251,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               images: []
             }} />
           </div>
+        {/* Verified Customer Reviews for Machinery */}
+        <div className="mt-16">
+          <MachineReviews />
         </div>
-
       </div>
 
       {/* JSON-LD Product Schema */}
