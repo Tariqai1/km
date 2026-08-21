@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer({ companyName = "K.M. Engineering Works", settings = "{}" }: { companyName?: string, settings?: string }) {
@@ -17,9 +18,20 @@ export default function Footer({ companyName = "K.M. Engineering Works", setting
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-display font-bold text-white mb-4">
-              {companyName}
-            </h3>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-12 w-12 rounded-xl bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden">
+                <Image
+                  src="/logo.png"
+                  alt="K.M. Engineering Works Logo"
+                  width={44}
+                  height={44}
+                  className="object-contain"
+                />
+              </div>
+              <h3 className="text-xl font-display font-bold text-white">
+                {companyName}
+              </h3>
+            </div>
             <p className="text-brand-steel mb-6">
               {parsedSettings?.heroSubheading || "Precision-Engineered Food Processing & Bakery Machinery. Trusted manufacturer based in Mumbai."}
             </p>

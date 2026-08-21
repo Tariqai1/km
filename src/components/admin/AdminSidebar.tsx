@@ -14,6 +14,7 @@ import {
   ExternalLink,
   ShieldCheck,
   User,
+  Activity,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { name: "Live Visitors", href: "/admin/visitors", icon: Activity, badge: "Live" },
   { name: "Products", href: "/admin/products", icon: Package },
   { name: "Categories", href: "/admin/categories", icon: FolderOpen },
   { name: "Enquiries", href: "/admin/enquiries", icon: MessageSquare, badge: "New" },

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { 
   Menu, 
@@ -36,12 +37,19 @@ export default function HeaderNavbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
           
           {/* Logo Section */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
-            <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-brand-primary text-white flex items-center justify-center font-bold font-display text-lg shadow-sm shadow-brand-primary/20">
-              KM
+          <Link href="/" className="flex items-center gap-3 shrink-0 group">
+            <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-white p-1 shadow-sm border border-slate-100 flex items-center justify-center overflow-hidden transition-transform duration-500 group-hover:rotate-45">
+              <Image
+                src="/logo.png"
+                alt="K.M. Engineering Works Logo"
+                width={48}
+                height={48}
+                className="object-contain"
+                priority
+              />
             </div>
             <div>
-              <h1 className="font-bold text-slate-900 leading-tight text-sm sm:text-base lg:text-lg tracking-tight">
+              <h1 className="font-bold text-slate-900 leading-tight text-sm sm:text-base lg:text-lg tracking-tight group-hover:text-brand-primary transition-colors">
                 K.M. Engineering Works
               </h1>
               <p className="text-[10px] sm:text-xs text-slate-500 font-medium">

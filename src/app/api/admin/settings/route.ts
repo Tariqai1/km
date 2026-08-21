@@ -27,6 +27,14 @@ export async function PUT(req: Request) {
         settings.companyStats = body.companyStats;
       }
 
+      // Digital Banner settings
+      if (body.bannerActive !== undefined) settings.bannerActive = body.bannerActive;
+      if (body.bannerBadge !== undefined) settings.bannerBadge = body.bannerBadge;
+      if (body.bannerHeading !== undefined) settings.bannerHeading = body.bannerHeading;
+      if (body.bannerSubheading !== undefined) settings.bannerSubheading = body.bannerSubheading;
+      if (body.bannerCtaText !== undefined) settings.bannerCtaText = body.bannerCtaText;
+      if (body.bannerCtaLink !== undefined) settings.bannerCtaLink = body.bannerCtaLink;
+
       // About page settings
       if (body.aboutHeading !== undefined) settings.aboutHeading = body.aboutHeading;
       if (body.aboutStory !== undefined) settings.aboutStory = body.aboutStory;

@@ -22,11 +22,12 @@ import {
   BookOpen,
   Award,
   Factory,
-  Cog
+  Cog,
+  Sparkles
 } from "lucide-react";
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<"branding" | "hero" | "about" | "stats" | "contact">("branding");
+  const [activeTab, setActiveTab] = useState<"branding" | "hero" | "banner" | "about" | "stats" | "contact">("branding");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -44,6 +45,14 @@ export default function SettingsPage() {
   const [contactPhone, setContactPhone] = useState("");
   const [contactAddress, setContactAddress] = useState("");
   const [companyStats, setCompanyStats] = useState<{value: string, label: string}[]>([]);
+
+  // Digital Banner State
+  const [bannerActive, setBannerActive] = useState(true);
+  const [bannerBadge, setBannerBadge] = useState("🔥 Special B2B Factory Initiative");
+  const [bannerHeading, setBannerHeading] = useState("Turnkey Commercial Bakery & Food Processing Plant Setup");
+  const [bannerSubheading, setBannerSubheading] = useState("Get customized 3D plant layout engineering, genuine SS-304 food-grade machinery fabrication, and on-site commissioning with zero-vibration guarantee.");
+  const [bannerCtaText, setBannerCtaText] = useState("Request Custom Plant Consultation");
+  const [bannerCtaLink, setBannerCtaLink] = useState("/contact");
 
   // About Page State
   const [aboutHeading, setAboutHeading] = useState("Pioneering Precision in Food Processing Machinery");
@@ -86,6 +95,14 @@ export default function SettingsPage() {
           if (data.companyStats && Array.isArray(data.companyStats)) {
             setCompanyStats(data.companyStats);
           }
+
+          // Digital Banner
+          if (data.bannerActive !== undefined) setBannerActive(data.bannerActive);
+          if (data.bannerBadge) setBannerBadge(data.bannerBadge);
+          if (data.bannerHeading) setBannerHeading(data.bannerHeading);
+          if (data.bannerSubheading) setBannerSubheading(data.bannerSubheading);
+          if (data.bannerCtaText) setBannerCtaText(data.bannerCtaText);
+          if (data.bannerCtaLink) setBannerCtaLink(data.bannerCtaLink);
 
           // About fields
           if (data.aboutHeading) setAboutHeading(data.aboutHeading);
@@ -131,6 +148,12 @@ export default function SettingsPage() {
           contactPhone,
           contactAddress,
           companyStats,
+          bannerActive,
+          bannerBadge,
+          bannerHeading,
+          bannerSubheading,
+          bannerCtaText,
+          bannerCtaLink,
           aboutHeading,
           aboutStory,
           founderName,
@@ -169,6 +192,7 @@ export default function SettingsPage() {
   const navItems = [
     { id: "branding", label: "Branding & Identity", icon: Building2, desc: "Company name, logo & theme colors" },
     { id: "hero", label: "Hero & Homepage Banner", icon: ImageIcon, desc: "Main heading, subheading & banner image" },
+    { id: "banner", label: "Digital Banner / Creative", icon: Sparkles, desc: "Promo creative banner & turnkey setup offer" },
     { id: "about", label: "About Page & Story", icon: BookOpen, desc: "Founder details, company story & capabilities" },
     { id: "stats", label: "Company Stats & Metrics", icon: BarChart3, desc: "Homepage counter statistics" },
     { id: "contact", label: "Contact Information", icon: MapPin, desc: "Email, phone & factory address" },
@@ -181,7 +205,7 @@ export default function SettingsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs sticky top-0 z-30">
         <div>
           <h1 className="font-display font-bold text-2xl sm:text-3xl text-brand-primary">Website Settings</h1>
-          <p className="text-slate-500 text-sm mt-0.5">Customize your brand identity, colors, About Us page, and live content.</p>
+          <p className="text-slate-500 text-sm mt-0.5">Customize your brand identity, colors, digital promo banners, and live content.</p>
         </div>
         <Button 
           onClick={handleSubmit} 
@@ -391,7 +415,94 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {/* 3. ABOUT US & STORY (FULL CRUD) */}
+          {/* 3. DIGITAL BANNER / MARKETING CREATIVE */}
+          {activeTab === "banner" && (
+            <div className="space-y-6 animate-in fade-in-50 duration-200">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-brand-accent" /> Digital Banner & Turnkey Offer Creative
+                  </CardTitle>
+                  <CardDescription>Configure the high-impact marketing banner displayed across the homepage.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  
+                  {/* Active Toggle */}
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <div>
+                      <h4 className="font-bold text-sm text-slate-900">Show Digital Banner on Website</h4>
+                      <p className="text-xs text-slate-500">Enable or disable this marketing creative on the homepage.</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={bannerActive} 
+                        onChange={(e) => setBannerActive(e.target.checked)} 
+                        className="sr-only peer"
+                      />
+                      <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    </label>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="bannerBadge">Promo Badge / Tagline</Label>
+                    <Input 
+                      id="bannerBadge"
+                      value={bannerBadge}
+                      onChange={(e) => setBannerBadge(e.target.value)}
+                      placeholder="e.g. 🔥 Special B2B Factory Initiative"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="bannerHeading">Banner Headline</Label>
+                    <Input 
+                      id="bannerHeading"
+                      value={bannerHeading}
+                      onChange={(e) => setBannerHeading(e.target.value)}
+                      placeholder="e.g. Turnkey Commercial Bakery & Food Processing Plant Setup"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="bannerSubheading">Banner Value Pitch / Description</Label>
+                    <Textarea 
+                      id="bannerSubheading"
+                      rows={3}
+                      value={bannerSubheading}
+                      onChange={(e) => setBannerSubheading(e.target.value)}
+                      placeholder="e.g. Get customized 3D plant layout engineering, genuine SS-304 food-grade machinery..."
+                      className="leading-relaxed"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="bannerCtaText">Button Text</Label>
+                      <Input 
+                        id="bannerCtaText"
+                        value={bannerCtaText}
+                        onChange={(e) => setBannerCtaText(e.target.value)}
+                        placeholder="Request Custom Plant Consultation"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="bannerCtaLink">Button Link</Label>
+                      <Input 
+                        id="bannerCtaLink"
+                        value={bannerCtaLink}
+                        onChange={(e) => setBannerCtaLink(e.target.value)}
+                        placeholder="/contact"
+                      />
+                    </div>
+                  </div>
+
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* 4. ABOUT US & STORY (FULL CRUD) */}
           {activeTab === "about" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               
@@ -479,7 +590,7 @@ export default function SettingsPage() {
                       <CardTitle className="flex items-center gap-2">
                         <Factory className="w-5 h-5 text-brand-primary" /> Key Highlights & Quality Standards
                       </CardTitle>
-                      <CardDescription>The 4 feature cards highlighting your manufacturing edge.</CardDescription>
+                      <CardDescription>The feature cards highlighting your manufacturing edge.</CardDescription>
                     </div>
                     <Button 
                       type="button" 
@@ -621,7 +732,7 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {/* 4. COMPANY STATS */}
+          {/* 5. COMPANY STATS */}
           {activeTab === "stats" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <Card>
@@ -695,7 +806,7 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {/* 5. CONTACT INFORMATION */}
+          {/* 6. CONTACT INFORMATION */}
           {activeTab === "contact" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <Card>

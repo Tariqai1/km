@@ -28,6 +28,13 @@ export interface ISettings extends Document {
   contactPhone: string;
   contactAddress: string;
   companyStats: ICompanyStat[];
+  // Digital Banner / Marketing Creative Fields
+  bannerActive?: boolean;
+  bannerBadge?: string;
+  bannerHeading?: string;
+  bannerSubheading?: string;
+  bannerCtaText?: string;
+  bannerCtaLink?: string;
   // About Page Fields
   aboutHeading?: string;
   aboutStory?: string;
@@ -85,6 +92,13 @@ const settingsSchema = new Schema<ISettings>(
         { value: "Pan-India", label: "Service Network" }
       ]
     },
+    // Digital Banner / Marketing Creative Settings
+    bannerActive: { type: Boolean, default: true },
+    bannerBadge: { type: String, default: "Special Factory Direct Initiative" },
+    bannerHeading: { type: String, default: "Turnkey Commercial Bakery & Food Processing Plant Setup" },
+    bannerSubheading: { type: String, default: "Get custom 3D factory layout planning, genuine SS-304 food-grade machinery fabrication, and on-site commissioning with zero-vibration guarantee." },
+    bannerCtaText: { type: String, default: "Request Custom Plant Consultation" },
+    bannerCtaLink: { type: String, default: "/contact" },
     // Dynamic About Page Configuration
     aboutHeading: { 
       type: String, 
@@ -168,5 +182,5 @@ const settingsSchema = new Schema<ISettings>(
   }
 );
 
-// We only ever need one document for settings.
 export const Settings: Model<ISettings> = mongoose.models.Settings || mongoose.model<ISettings>('Settings', settingsSchema);
+export default Settings;

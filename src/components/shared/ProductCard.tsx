@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { getOptimizedImageUrl } from "@/lib/utils";
 
 interface Product {
   title: string;
@@ -16,7 +17,8 @@ interface Product {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
-  const imageUrl = product.images?.[0]?.url || "/placeholder-product.jpg";
+  const rawUrl = product.images?.[0]?.url || "/placeholder-product.jpg";
+  const imageUrl = getOptimizedImageUrl(rawUrl, 600);
 
   const categoryName = typeof product.category === 'object' && product.category !== null
     ? (product.category.name || "")

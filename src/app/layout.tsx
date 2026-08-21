@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
+import dbConnect from "@/lib/db";
+import { Settings } from "@/models/Settings";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ["latin"],
@@ -13,13 +15,69 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "K.M. Engineering Works | Food Processing Machinery Manufacturer",
-  description: "Precision-Engineered Food Processing & Bakery Machinery. Trusted manufacturer of Tutti Frutti Machines, Vibro Sifters, Dough Mixers, Namkeen Machines & Bakery Equipment. Based in Mumbai, India.",
-  keywords: ["food processing machinery", "bakery equipment", "tutti frutti machine", "vibro sifter", "dough mixer", "namkeen machine", "Mumbai manufacturer"],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://km-inky.vercel.app"),
+  title: {
+    default: "K.M. Engineering Works | Food Processing & Bakery Machinery Manufacturer Mumbai",
+    template: "%s | K.M. Engineering Works"
+  },
+  description: "Mumbai's leading manufacturer of commercial bakery equipment, spiral dough mixers, automatic tutti frutti processing plants, sanitary vibro sifters, and snack making machines. Precision-engineered with SS-304 food-grade stainless steel.",
+  keywords: [
+    "food processing machinery manufacturer",
+    "bakery equipment manufacturer Mumbai",
+    "commercial spiral dough mixer 50kg 100kg",
+    "tutti frutti processing plant India",
+    "sanitary vibro sifter screener SS 304",
+    "industrial planetary mixer manufacturer",
+    "namkeen snack making machine",
+    "K.M. Engineering Works Mumbai",
+    "Abdulkaleem Abdulkadar Sayyed",
+    "Azmi Compound Sakinaka machinery"
+  ],
+  authors: [{ name: "K.M. Engineering Works" }],
+  creator: "K.M. Engineering Works",
+  publisher: "K.M. Engineering Works",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: "K.M. Engineering Works | Food Processing & Bakery Machinery",
+    description: "Precision-engineered industrial machinery for bakeries and food processing plants. Factory direct pricing from Mumbai, India.",
+    url: "https://km-inky.vercel.app",
+    siteName: "K.M. Engineering Works",
+    images: [
+      {
+        url: "/placeholder-product.jpg",
+        width: 1200,
+        height: 630,
+        alt: "K.M. Engineering Works Machinery Showcase",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "K.M. Engineering Works | Machinery Manufacturer",
+    description: "Heavy-duty commercial bakery & food processing machinery manufactured in Mumbai.",
+    images: ["/placeholder-product.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
-import dbConnect from "@/lib/db";
-import { Settings } from "@/models/Settings";
+import VisitorTracker from "@/components/shared/VisitorTracker";
+import AnimatedPageLoader from "@/components/shared/AnimatedPageLoader";
 
 export default async function RootLayout({
   children,
@@ -39,8 +97,43 @@ export default async function RootLayout({
   const accentColor = settings?.accentColor || "#E8590C";
   const companyName = settings?.companyName || "K.M. Engineering Works";
 
-  // Hex to HSL or RGB conversion can be complex for tailwind, but modern browsers support css variables natively.
-  // Tailwind v4 uses standard css variables.
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": companyName,
+    "image": "https://km-inky.vercel.app/placeholder-product.jpg",
+    "url": "https://km-inky.vercel.app",
+    "telephone": settings?.contactPhone || "+919876543210",
+    "email": settings?.contactEmail || "info@kmengineering.com",
+    "priceRange": "₹₹ - ₹₹₹₹",
+    "founder": {
+      "@type": "Person",
+      "name": settings?.founderName || "Abdulkaleem Abdulkadar Sayyed",
+      "jobTitle": settings?.founderTitle || "Founder & Managing Director"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": settings?.contactAddress || "Gala No.58, Azmi Compound, Near Kwality Bakery",
+      "addressLocality": "Mumbai",
+      "postalCode": "400072",
+      "addressRegion": "Maharashtra",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 19.1025,
+      "longitude": 72.8875
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    ],
+    "description": settings?.heroSubheading || "Leading manufacturer of precision-engineered food processing and bakery machinery in Mumbai, India."
+  };
 
   return (
     <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable}`}>
@@ -48,31 +141,7 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              "name": companyName,
-              "url": "https://www.kmengineering.com",
-              "telephone": settings?.contactPhone || "+919876543210",
-              "founder": {
-                "@type": "Person",
-                "name": "Abdulkaleem Abdulkadar Sayyed"
-              },
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": settings?.contactAddress || "Gala No.58, Azmi Compound, Near Kwality Bakery",
-                "addressLocality": "Mumbai",
-                "postalCode": "400072",
-                "addressRegion": "Maharashtra",
-                "addressCountry": "IN"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 19.1,
-                "longitude": 72.9
-              },
-              "description": settings?.heroSubheading || "Leading manufacturer of precision-engineered food processing and bakery machinery in Mumbai, India."
-            })
+            __html: JSON.stringify(localBusinessJsonLd)
           }}
         />
         <style dangerouslySetInnerHTML={{ __html: `
@@ -83,6 +152,8 @@ export default async function RootLayout({
         `}} />
       </head>
       <body className="antialiased min-h-screen">
+        <AnimatedPageLoader />
+        <VisitorTracker />
         {children}
       </body>
     </html>

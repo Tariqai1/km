@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   description: "Learn about K.M. Engineering Works, Mumbai's trusted manufacturer of food processing and bakery machinery since 2010. Founder Abdulkaleem Abdulkadar Sayyed.",
 };
 
+// Enable ISR (Incremental Static Regeneration) - Cache for 60 seconds
+export const revalidate = 60;
+
 const defaultCapabilities = [
   {
     title: "Tutti Frutti Processing Plants",

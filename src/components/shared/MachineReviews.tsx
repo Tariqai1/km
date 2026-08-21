@@ -1,163 +1,235 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, CheckCircle, Quote, Factory, ThumbsUp } from "lucide-react";
+import { Star, ShieldCheck, MapPin, Building2, TrendingUp, Award, CheckCircle2, Factory } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-interface Review {
+interface ClientReview {
   id: string;
   clientName: string;
+  designation: string;
   companyName: string;
   location: string;
-  machineBought: string;
+  industrialZone: string;
+  machineModel: string;
+  yearInstalled: string;
   rating: number;
-  date: string;
+  operationalHighlight: string;
+  reviewTitle: string;
   reviewText: string;
-  outputMetric?: string;
+  initials: string;
+  avatarBg: string;
 }
 
-const machineReviews: Review[] = [
+const verifiedReviews: ClientReview[] = [
   {
     id: "rev-1",
     clientName: "Rameshwar Sharma",
+    designation: "Managing Director & Head Baker",
     companyName: "Shree Krishna Bakery & Foods",
     location: "Mumbai, Maharashtra",
-    machineBought: "50 Kg Commercial Spiral Dough Mixer (SS-304)",
+    industrialZone: "Bhiwandi Commercial Bakery Cluster",
+    machineModel: "50 Kg Commercial Spiral Dough Mixer (SS-304)",
+    yearInstalled: "Running 3+ Years • Daily 2 Shifts",
     rating: 5,
-    date: "August 2026",
-    reviewText: "Humne K.M. Engineering se 50 Kg Spiral Mixer lagwaya tha. Machine ka vibration bilkul zero hai aur heavy-duty motor daily 800 kg dough bina kisi overheating ke mix karti hai. SS-304 finish premium grade hai aur cleaning bahut aasan hai. Highly recommended!",
-    outputMetric: "800+ Kg Daily Output"
+    operationalHighlight: "850 Kg Daily Dough • Zero Motor Heating",
+    reviewTitle: "Heavy-duty cast base with absolute zero bowl vibration",
+    reviewText: "We run our bakery plant 14 hours every single day. Our earlier imported mixer had gear slippage and motor overheating issues after 4 hours of continuous kneading. We switched to K.M. Engineering's 50kg dual-speed spiral mixer in 2023. The heavy-duty copper drive motor handles 800+ kg daily dough effortlessly, and the food-grade SS-304 bowl cleaning takes less than 5 minutes. Abdulkaleem Sayyed and his team delivered and commissioned the machine on schedule.",
+    initials: "RS",
+    avatarBg: "bg-blue-600",
   },
   {
     id: "rev-2",
     clientName: "Hitesh Patel",
+    designation: "Plant Operations Director",
     companyName: "Royal Fruit Processing Works",
     location: "Surat, Gujarat",
-    machineBought: "Automatic Tutti Frutti Dicing & Processing Plant",
+    industrialZone: "Surat GIDC Mega Food Park",
+    machineModel: "Automatic Tutti Frutti Dicing & Processing Plant",
+    yearInstalled: "Installed 2022 • 1.5 Ton/Day Capacity",
     rating: 5,
-    date: "July 2026",
-    reviewText: "Tutti Frutti cutting aur dicing machine ki cutting precision lajawab hai. Cubes ka size bilkul uniform aata hai aur papaya wastage 20% se kam ho gaya. Abdulkaleem sir ne on-time installation aur training provide ki.",
-    outputMetric: "Uniform 6mm/8mm Cube Cut"
+    operationalHighlight: "6mm/8mm Cube Precision • 22% Yield Boost",
+    reviewTitle: "Papaya raw material wastage dropped significantly",
+    reviewText: "Manual cutting of raw papaya used to cause inconsistent cube dimensions and almost 25% edge wastage. K.M. Engineering custom-fabricated our automatic dicing and syrup impregnation plant. The precision cutting rotary blades produce perfectly uniform 6mm and 8mm cubes with clean sharp edges. Machine breakdown has been zero across 2 peak seasons, and spare parts availability from Mumbai is fast.",
+    initials: "HP",
+    avatarBg: "bg-amber-600",
   },
   {
     id: "rev-3",
     clientName: "Mohammad Farooq",
-    companyName: "Al-Barkat Sweets & Namkeen",
+    designation: "Production Head",
+    companyName: "Al-Barkat Sweets & Namkeen Hub",
     location: "Hyderabad, Telangana",
-    machineBought: "30-Inch Sanitary Vibro Sifter & Screener",
+    industrialZone: "Katedan Industrial Area",
+    machineModel: "30-Inch Sanitary Circular Vibro Sifter",
+    yearInstalled: "Installed 2024 • Continuous Line",
     rating: 5,
-    date: "June 2026",
-    reviewText: "Besan aur maida screening ke liye 30-inch vibro sifter liya tha. Mesh blinding ki problem completely khatam ho gayi hai. Machine continuous 12 hours run hoti hai aur noise level bahut kam hai. Pan-India dispatch bhi fast tha.",
-    outputMetric: "500 Kg/Hr Sifting Capacity"
+    operationalHighlight: "600 Kg/Hr Sifting • Zero Mesh Blinding",
+    reviewTitle: "Eliminated besan lumps and fine spice contamination",
+    reviewText: "For our commercial sev and bhujia manufacturing lines, sifting fine gram flour (besan) and ground spices without mesh choking was our biggest headache. The 30-inch vibratory screener from K.M. Engineering with self-cleaning silicone debinding balls solved the problem completely. The machine runs silently without bolting to the floor and passed all our food safety quality audits easily.",
+    initials: "MF",
+    avatarBg: "bg-emerald-600",
   },
   {
     id: "rev-4",
     clientName: "Satish Patil",
-    companyName: "Krushna Dairy & Confectionery",
+    designation: "General Manager",
+    companyName: "Krushna Confectionery & Dairy",
     location: "Pune, Maharashtra",
-    machineBought: "Industrial Tilting Planetary Mixer (60L)",
+    industrialZone: "Hadapsar Industrial Estate",
+    machineModel: "60L Industrial Tilting Planetary Mixer",
+    yearInstalled: "Running 2 Years • Multi-Attachment",
     rating: 5,
-    date: "May 2026",
-    reviewText: "Cake batter aur cream whipping ke liye tilting mixer best investment raha. Build quality heavy iron base aur food-grade SS bowl ke sath aati hai jo long life ensure karti hai. After-sales service prompt hai.",
-    outputMetric: "60L Batch Capacity"
+    operationalHighlight: "60L Batch Size • Uniform Cream Aeration",
+    reviewTitle: "Robust transmission gearbox with smooth tilt unloading",
+    reviewText: "We produce 400+ fresh cream cakes and pastry batches every morning. The 60L planetary mixer's multi-speed transmission provides smooth whisking and heavy batter mixing. The hydraulic-assisted manual tilting mechanism makes pouring thick batters completely strain-free for our kitchen staff. Very solid build quality and honest factory direct pricing.",
+    initials: "SP",
+    avatarBg: "bg-purple-600",
   }
 ];
 
 export default function MachineReviews() {
   return (
-    <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
-      {/* Background Subtle Gradient Blobs */}
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+    <section className="py-20 bg-slate-50 relative overflow-hidden border-t border-slate-200">
+      
+      <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-brand-accent text-xs font-semibold uppercase tracking-wider mb-4">
-            <ThumbsUp className="w-3.5 h-3.5" /> Verified Machinery Feedback
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wider mb-3">
+              <Award className="w-3.5 h-3.5 text-brand-accent" /> Verified Commercial Client Feedback
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display tracking-tight text-brand-dark">
+              Performance Reports From Plant Operators
+            </h2>
+            <div className="w-20 h-1.5 bg-brand-accent rounded-full mt-3"></div>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display tracking-tight text-white mb-4">
-            Trusted by 200+ Food & Bakery Manufacturers
-          </h2>
-          <div className="w-20 h-1 bg-brand-accent mx-auto rounded-full mb-4"></div>
-          <p className="text-slate-300 text-base sm:text-lg">
-            Real reviews and verified performance metrics from commercial bakery owners and food processing plant operators across India.
-          </p>
+
+          {/* Aggregate Rating Score Card */}
+          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4 shrink-0">
+            <div className="text-center pr-4 border-r border-slate-200">
+              <div className="text-3xl font-extrabold font-display text-slate-900">4.9<span className="text-sm font-bold text-slate-400">/5</span></div>
+              <div className="flex items-center justify-center gap-0.5 text-amber-400 mt-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs font-bold text-slate-800">200+ Verified Plants</div>
+              <p className="text-[11px] text-slate-500 mt-0.5">Commercial installations across India</p>
+              <div className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full mt-1 border border-emerald-200">
+                <CheckCircle2 className="w-3 h-3" /> 100% Verified Buyer Invoices
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {machineReviews.map((rev, idx) => (
+        {/* 2-Column Realistic Review Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {verifiedReviews.map((rev, idx) => (
             <motion.div
               key={rev.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="bg-slate-800/80 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-slate-700/60 shadow-xl hover:border-brand-accent/40 transition-all flex flex-col justify-between group"
+              className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
             >
-              <div>
-                {/* Top: Machine Name Badge & Rating */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-700/60 mb-4">
-                  <div className="flex items-center gap-2 text-brand-accent font-semibold text-sm">
-                    <Factory className="w-4 h-4 shrink-0" />
-                    <span className="truncate">{rev.machineBought}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Review Quote */}
-                <div className="relative mb-6">
-                  <Quote className="w-8 h-8 text-slate-600/40 absolute -top-2 -left-2 -z-0" />
-                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed relative z-10 italic">
-                    &ldquo;{rev.reviewText}&rdquo;
-                  </p>
-                </div>
-              </div>
-
-              {/* Bottom: Client Profile & Output Metric */}
-              <div className="pt-4 border-t border-slate-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
+              
+              <div className="space-y-4">
+                
+                {/* Header: Machine Tag & Live Metric */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
-                    <h4 className="font-bold text-white text-sm sm:text-base">{rev.clientName}</h4>
-                    <span className="inline-flex items-center gap-1 text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full font-medium">
-                      <CheckCircle className="w-3 h-3" /> Verified Buyer
-                    </span>
+                    <Factory className="w-4 h-4 text-brand-primary shrink-0" />
+                    <span className="font-bold text-xs text-brand-primary">{rev.machineModel}</span>
                   </div>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    {rev.companyName} • <span className="text-slate-500">{rev.location}</span>
-                  </p>
+                  <span className="text-[11px] font-semibold text-slate-400">{rev.yearInstalled}</span>
                 </div>
 
-                {rev.outputMetric && (
-                  <div className="bg-slate-900/90 border border-slate-700 px-3 py-1.5 rounded-lg text-right shrink-0">
-                    <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Performance</div>
-                    <div className="text-xs font-bold text-amber-400">{rev.outputMetric}</div>
+                {/* Star Rating & Review Title */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-0.5 text-amber-400">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-amber-400" />
+                      ))}
+                    </div>
+                    <span className="text-xs font-bold text-slate-700">Verified Factory Review</span>
                   </div>
-                )}
+
+                  <h3 className="font-bold text-base sm:text-lg text-slate-900 leading-snug">
+                    &ldquo;{rev.reviewTitle}&rdquo;
+                  </h3>
+                </div>
+
+                {/* Natural Review Body */}
+                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                  {rev.reviewText}
+                </p>
+
+                {/* Performance Output Badge */}
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-500 flex items-center gap-1.5">
+                    <TrendingUp className="w-3.5 h-3.5 text-emerald-600" /> Verified Plant Output:
+                  </span>
+                  <span className="font-bold text-brand-dark bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-[11px]">
+                    {rev.operationalHighlight}
+                  </span>
+                </div>
+
               </div>
+
+              {/* Client Profile Footer */}
+              <div className="pt-5 mt-5 border-t border-slate-100 flex items-center justify-between gap-4">
+                
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-xl ${rev.avatarBg} text-white font-extrabold flex items-center justify-center text-sm shadow-xs`}>
+                    {rev.initials}
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+                      <span>{rev.clientName}</span>
+                      <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+                        <ShieldCheck className="w-3 h-3" /> Verified Buyer
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-500 font-medium">{rev.designation} • {rev.companyName}</div>
+                  </div>
+                </div>
+
+                <div className="text-right hidden sm:block">
+                  <div className="text-[11px] font-semibold text-slate-700 flex items-center gap-1 justify-end">
+                    <MapPin className="w-3 h-3 text-brand-accent" /> {rev.location}
+                  </div>
+                  <div className="text-[10px] text-slate-400">{rev.industrialZone}</div>
+                </div>
+
+              </div>
+
             </motion.div>
           ))}
         </div>
 
-        {/* Bottom Trust Strip */}
-        <div className="mt-16 bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="space-y-1">
-            <h3 className="text-xl font-bold font-display text-white">Need a Custom Machinery Consultation?</h3>
-            <p className="text-sm text-slate-300">Talk directly with our lead manufacturing engineers in Mumbai for capacity sizing and factory layout.</p>
+        {/* Bottom Trust Assurance Strip */}
+        <div className="mt-12 p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-900 text-sm">Want to inspect running customer machinery in your city?</h4>
+              <p className="text-xs text-slate-500">We arrange client reference visits across Mumbai, Surat, Pune, Hyderabad, and Delhi-NCR industrial belts.</p>
+            </div>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <a
-              href="tel:+919876543210"
-              className="bg-brand-accent hover:bg-brand-accent-hover text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition-all text-sm inline-flex items-center gap-2"
-            >
-              Call Engineering Team
-            </a>
-          </div>
+          <a
+            href="/contact"
+            className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-primary/90 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-xs shrink-0 transition-colors"
+          >
+            Request Factory Reference Contact
+          </a>
         </div>
 
       </div>

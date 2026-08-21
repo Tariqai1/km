@@ -6,6 +6,7 @@ import SpecTable from "@/components/shared/SpecTable";
 import InquiryForm from "@/components/shared/InquiryForm";
 import ProductCard from "@/components/shared/ProductCard";
 import MachineReviews from "@/components/shared/MachineReviews";
+import PdfBrochureButton from "@/components/shared/PdfBrochureButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -61,6 +62,9 @@ const getProductData = async (slug: string) => {
   }
 };
 
+// Enable ISR (Incremental Static Regeneration) - Cache for 60 seconds
+export const revalidate = 60;
+
 export async function generateMetadata({
   params,
 }: {
@@ -73,9 +77,47 @@ export async function generateMetadata({
       title: "Product Not Found | K.M. Engineering Works",
     };
   }
+
+  const cleanDescription = product.description
+    ? product.description.replace(/<[^>]*>?/gm, "").slice(0, 160)
+    : `High quality ${product.title} manufactured by K.M. Engineering Works with SS-304 food-grade stainless steel. Direct factory pricing in Mumbai.`;
+
+  const imageUrl = product.images && product.images.length > 0 && !product.images[0].url.includes("placeholder")
+    ? product.images[0].url
+    : "https://km-inky.vercel.app/placeholder-product.jpg";
+
   return {
-    title: `${product.title} | K.M. Engineering Works`,
-    description: `High quality ${product.title} manufactured by K.M. Engineering Works. Built for durability and efficiency.`,
+    title: `${product.title} Manufacturer | K.M. Engineering Works Mumbai`,
+    description: cleanDescription,
+    keywords: [
+      product.title,
+      `${product.title} manufacturer Mumbai`,
+      `${product.title} price India`,
+      `${product.categoryName} machine`,
+      "K.M. Engineering Works",
+      "food processing machinery"
+    ],
+    openGraph: {
+      title: `${product.title} | K.M. Engineering Works`,
+      description: cleanDescription,
+      url: `https://km-inky.vercel.app/products/${product.slug}`,
+      siteName: "K.M. Engineering Works",
+      images: [
+        {
+          url: imageUrl,
+          width: 800,
+          height: 800,
+          alt: product.title,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.title} | K.M. Engineering Works`,
+      description: cleanDescription,
+      images: [imageUrl],
+    },
   };
 }
 
@@ -192,6 +234,9 @@ export default async function ProductDetailPage({
                     <PhoneCall className="w-4 h-4 mr-2" /> Get Instant Quote
                   </a>
                 </Button>
+
+                {/* Dynamic Tech Specs PDF Generator */}
+                <PdfBrochureButton product={product} />
 
                 {product.brochureUrl && (
                   <Button

@@ -1,9 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { Users, Package, FolderOpen, AlertCircle, Eye } from "lucide-react";
 import { StatsCard } from "@/components/admin/StatsCard";
-import { EnquiryChart } from "@/components/admin/EnquiryChart";
+
+const EnquiryChart = dynamic(
+  () => import("@/components/admin/EnquiryChart").then((mod) => mod.EnquiryChart),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-64 flex items-center justify-center bg-slate-50 rounded-xl text-slate-400 text-sm border border-slate-100 animate-pulse">
+        Loading Analytics Chart...
+      </div>
+    ),
+  }
+);
 import {
   Table,
   TableBody,
@@ -150,9 +162,17 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="font-display font-bold text-3xl text-brand-primary">Dashboard Overview</h1>
-        <p className="text-slate-500 mt-1">Welcome back, Admin. Here&apos;s what&apos;s happening today.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="font-display font-bold text-3xl text-brand-primary">Dashboard Overview</h1>
+          <p className="text-slate-500 mt-1">Welcome back, Admin. Here&apos;s what&apos;s happening today.</p>
+        </div>
+        <Button asChild className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold shadow-xs shrink-0">
+          <Link href="/admin/visitors">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse mr-2"></span>
+            View Live Visitors Feed
+          </Link>
+        </Button>
       </div>
 
       {stats && (

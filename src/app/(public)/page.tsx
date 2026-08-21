@@ -9,6 +9,7 @@ import CategoryCard from "@/components/shared/CategoryCard";
 import ProductCard from "@/components/shared/ProductCard";
 import AboutSection from "@/components/shared/AboutSection";
 import MachineReviews from "@/components/shared/MachineReviews";
+import DigitalBanner from "@/components/shared/DigitalBanner";
 import { Cog, ShieldCheck, Headphones } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -247,6 +248,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* DIGITAL MARKETING BANNER & PROMO CREATIVE */}
+      <DigitalBanner settings={settings} />
 
       {/* ABOUT COMPANY HERITAGE & INFRASTRUCTURE */}
       <AboutSection />
