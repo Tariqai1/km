@@ -79,7 +79,7 @@ export default function AddProductPage() {
         const res = await fetch("/api/categories");
         if (res.ok) {
           const data = await res.json();
-          setCategories(data.categories || data);
+          setCategories(Array.isArray(data) ? data : (Array.isArray(data?.categories) ? data.categories : []));
         }
       } catch (err) {
         console.error("Failed to fetch categories", err);

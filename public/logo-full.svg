@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 220" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gearGradFull" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="redGradFull" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#b91c1c" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left: 3 Gears Monogram Icon (Scaled 0.5) -->
+  <g transform="translate(10, 5) scale(0.48)">
+    <!-- Gear K -->
+    <circle cx="150" cy="160" r="80" fill="url(#gearGradFull)" stroke="#38bdf8" stroke-width="4" />
+    <circle cx="150" cy="160" r="54" fill="#ffffff" />
+    <text x="150" y="184" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="70" fill="url(#redGradFull)" text-anchor="middle">K</text>
+    
+    <!-- Gear M -->
+    <circle cx="300" cy="120" r="68" fill="url(#gearGradFull)" stroke="#38bdf8" stroke-width="3.5" />
+    <circle cx="300" cy="120" r="46" fill="#ffffff" />
+    <text x="300" y="140" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="56" fill="url(#redGradFull)" text-anchor="middle">M</text>
+
+    <!-- Gear E -->
+    <circle cx="295" cy="265" r="50" fill="url(#gearGradFull)" stroke="#38bdf8" stroke-width="3" />
+    <circle cx="295" cy="265" r="34" fill="#ffffff" />
+    <text x="295" y="279" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="40" fill="#4338ca" text-anchor="middle">E</text>
+  </g>
+
+  <!-- Right: Official Typography Lockup -->
+  <g transform="translate(210, 0)">
+    <!-- Main Company Name -->
+    <text x="0" y="95" font-family="'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif" font-weight="900" font-size="46" fill="#0F2440" letter-spacing="-0.5">
+      K.M. ENGINEERING WORKS
+    </text>
+    
+    <!-- Tagline & Badge -->
+    <rect x="0" y="118" width="670" height="4" fill="#E8590C" rx="2" />
+    
+    <text x="0" y="152" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="16.5" fill="#0284C7" letter-spacing="1.5">
+      MANUFACTURER OF FOOD MACHINES &amp; EQUIPMENTS
+    </text>
+    
+    <text x="0" y="180" font-family="'Segoe UI', Arial, sans-serif" font-weight="600" font-size="13.5" fill="#64748B" letter-spacing="0.5">
+      Tutti Frutti Plants • Bakery Machinery • Potato Chips • Namkeen • Sakinaka, Mumbai
+    </text>
+  </g>
+</svg>

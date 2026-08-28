@@ -17,8 +17,22 @@ body {
   font-family: var(--font-family-sans);
   background-color: var(--color-brand-light);
   color: var(--color-brand-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-display);
+  letter-spacing: -0.015em;
 }
+
+p {
+  line-height: 1.6;
+}
+

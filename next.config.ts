@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
@@ -12,6 +13,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "picsum.photos",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "km-inky.vercel.app",
         pathname: "/**",
       },
     ],

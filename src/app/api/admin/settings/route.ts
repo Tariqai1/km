@@ -7,8 +7,6 @@ export async function PUT(req: Request) {
     await dbConnect();
     const body = await req.json();
 
-    // Since we only have one settings document, we update the first one we find
-    // or create it if it doesn't exist
     let settings = await Settings.findOne();
 
     if (settings) {
@@ -19,13 +17,30 @@ export async function PUT(req: Request) {
       if (body.heroSubheading !== undefined) settings.heroSubheading = body.heroSubheading;
       if (body.primaryColor !== undefined) settings.primaryColor = body.primaryColor;
       if (body.accentColor !== undefined) settings.accentColor = body.accentColor;
+      if (body.secondaryColor !== undefined) settings.secondaryColor = body.secondaryColor;
+      if (body.whatsappColor !== undefined) settings.whatsappColor = body.whatsappColor;
       if (body.contactEmail !== undefined) settings.contactEmail = body.contactEmail;
       if (body.contactPhone !== undefined) settings.contactPhone = body.contactPhone;
       if (body.contactAddress !== undefined) settings.contactAddress = body.contactAddress;
       
+      if (body.heroImages && Array.isArray(body.heroImages)) {
+        settings.heroImages = body.heroImages;
+      }
+
       if (body.companyStats && Array.isArray(body.companyStats)) {
         settings.companyStats = body.companyStats;
       }
+
+      // Section Toggles
+      if (body.showHeroShowcase !== undefined) settings.showHeroShowcase = body.showHeroShowcase;
+      if (body.showQrRibbon !== undefined) settings.showQrRibbon = body.showQrRibbon;
+      if (body.showCategoriesSection !== undefined) settings.showCategoriesSection = body.showCategoriesSection;
+      if (body.showFeaturedProducts !== undefined) settings.showFeaturedProducts = body.showFeaturedProducts;
+      if (body.showDigitalBanner !== undefined) settings.showDigitalBanner = body.showDigitalBanner;
+      if (body.showClientReviews !== undefined) settings.showClientReviews = body.showClientReviews;
+      if (body.showAboutSection !== undefined) settings.showAboutSection = body.showAboutSection;
+      if (body.showStatsCounter !== undefined) settings.showStatsCounter = body.showStatsCounter;
+      if (body.showWhyChooseUs !== undefined) settings.showWhyChooseUs = body.showWhyChooseUs;
 
       // Digital Banner settings
       if (body.bannerActive !== undefined) settings.bannerActive = body.bannerActive;

@@ -95,15 +95,15 @@ export default function MachineReviews() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wider mb-2.5">
               <Award className="w-3.5 h-3.5 text-brand-accent" /> Verified Commercial Client Feedback
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display tracking-tight text-brand-dark">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display tracking-tight text-slate-900">
               Performance Reports From Plant Operators
             </h2>
-            <div className="w-20 h-1.5 bg-brand-accent rounded-full mt-3"></div>
+            <div className="w-16 h-1 bg-brand-accent rounded-full mt-2.5"></div>
           </div>
 
           {/* Aggregate Rating Score Card */}

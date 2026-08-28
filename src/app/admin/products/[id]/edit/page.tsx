@@ -54,7 +54,7 @@ export default function EditProductPage() {
 
         if (catsRes.ok) {
           const data = await catsRes.json();
-          setCategories(data.categories || data);
+          setCategories(Array.isArray(data) ? data : (Array.isArray(data?.categories) ? data.categories : []));
         }
 
         if (prodRes.ok) {

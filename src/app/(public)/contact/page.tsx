@@ -68,14 +68,14 @@ function ContactContent() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Page Hero Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16 space-y-3">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs sm:text-sm font-semibold">
             <Building2 className="w-3.5 h-3.5" /> Direct Manufacturer Support
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-slate-900 tracking-tight">
             Let's Build Your <span className="text-brand-primary">Factory Solution</span>
           </h1>
-          <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-relaxed">
+          <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed">
             Have questions about custom specifications or urgent quotations? Reach out to our technical engineering team directly.
           </p>
         </div>
@@ -116,14 +116,14 @@ function ContactContent() {
           <div className="lg:col-span-5 bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden">
             
             {/* Header Banner */}
-            <div className="bg-slate-900 text-white p-6 sm:p-8 relative overflow-hidden">
+            <div className="bg-slate-900 text-white p-5 sm:p-7 relative overflow-hidden">
               <div className="relative z-10 space-y-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-white">{companyName}</h3>
-                  <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <h3 className="text-base sm:text-lg font-bold font-display text-white">{companyName}</h3>
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                 </div>
                 <p className="text-slate-300 text-xs sm:text-sm font-medium">
-                  Precision Food Processing & Bakery Machinery
+                  Precision Food Processing &amp; Bakery Machinery
                 </p>
               </div>
               <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-brand-primary/20 rounded-full blur-2xl pointer-events-none" />

@@ -88,42 +88,42 @@ export default function AboutSection({ initialSettings }: AboutSectionProps) {
                 <Factory className="w-80 h-80 text-white" />
               </div>
 
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-brand-accent text-xs font-semibold uppercase tracking-wider mb-6 border border-white/10">
-                <Building2 className="w-3.5 h-3.5" /> Company Profile & Legacy
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-brand-accent text-xs font-semibold uppercase tracking-wider mb-4 border border-white/10">
+                <Building2 className="w-3.5 h-3.5" /> Company Profile &amp; Legacy
               </div>
 
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display leading-tight mb-4">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold font-display leading-snug mb-3">
                 {aboutHeading}
               </h3>
 
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-8">
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
                 {aboutStory}
               </p>
 
               {/* Founder Quote Card */}
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/15">
-                <p className="text-xs sm:text-sm text-slate-200 italic mb-3">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/15">
+                <p className="text-xs sm:text-sm text-slate-200 italic mb-2.5">
                   &ldquo;{founderQuote}&rdquo;
                 </p>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h5 className="font-bold text-sm text-white">{founderName}</h5>
+                    <h5 className="font-bold text-xs sm:text-sm text-white">{founderName}</h5>
                     <p className="text-[11px] text-brand-accent font-medium">{founderTitle}</p>
                   </div>
-                  <div className="h-8 w-8 rounded-full bg-brand-accent/20 border border-brand-accent flex items-center justify-center text-brand-accent">
-                    <Award className="w-4 h-4" />
+                  <div className="h-7 w-7 rounded-full bg-brand-accent/20 border border-brand-accent flex items-center justify-center text-brand-accent">
+                    <Award className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </div>
 
               {/* Manufacturing Stats Floating Strip */}
-              <div className="grid grid-cols-3 gap-3 mt-6 pt-6 border-t border-white/15 text-center">
+              <div className="grid grid-cols-3 gap-3 mt-5 pt-5 border-t border-white/15 text-center">
                 {stats.map((st: any, idx: number) => (
                   <div key={idx}>
-                    <div className={`text-2xl sm:text-3xl font-extrabold ${idx === 1 ? 'text-white' : 'text-brand-accent'} font-display`}>
+                    <div className={`text-xl sm:text-2xl font-bold ${idx === 1 ? 'text-white' : 'text-brand-accent'} font-display`}>
                       {st.value}
                     </div>
-                    <div className="text-[11px] text-slate-300 mt-0.5">{st.label}</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-300 mt-0.5">{st.label}</div>
                   </div>
                 ))}
               </div>
@@ -136,17 +136,17 @@ export default function AboutSection({ initialSettings }: AboutSectionProps) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-6 space-y-6"
+            className="lg:col-span-6 space-y-5"
           >
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-semibold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-semibold uppercase tracking-wider mb-2.5">
                 <Cog className="w-3.5 h-3.5" /> Engineering Standards
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold font-display text-brand-dark tracking-tight leading-tight">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display text-slate-900 tracking-tight leading-tight">
                 Heavy-Duty Fabrication Built for Industrial Reliability
               </h2>
-              <div className="w-16 h-1 bg-brand-accent rounded-full mt-3 mb-4"></div>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              <div className="w-16 h-1 bg-brand-accent rounded-full mt-2.5 mb-3"></div>
+              <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed">
                 Operating out of our fully-equipped workshop at <strong>{settings?.contactAddress || "Azmi Compound, Mumbai"}</strong>, we engineer every unit from ground up using CNC precision cutting, balanced rotary shafts, and food-grade hygienic welding.
               </p>
             </div>

@@ -94,7 +94,21 @@ export default async function RootLayout({
   }
 
   const primaryColor = settings?.primaryColor || "#1B365D";
-  const accentColor = settings?.accentColor || "#E8590C";
+  let accentColor = settings?.accentColor;
+  // High-contrast safety guard: Prevent dark navy/black from overwriting accent color
+  if (
+    !accentColor ||
+    accentColor.toLowerCase() === primaryColor.toLowerCase() ||
+    accentColor.toLowerCase() === "#1b365d" ||
+    accentColor.toLowerCase() === "#0f2440" ||
+    accentColor.toLowerCase() === "#061426" ||
+    accentColor.toLowerCase() === "#071324" ||
+    accentColor.toLowerCase() === "#000000"
+  ) {
+    accentColor = "#E8590C";
+  }
+  const secondaryColor = settings?.secondaryColor || "#071324";
+  const whatsappColor = settings?.whatsappColor || "#25D366";
   const companyName = settings?.companyName || "K.M. Engineering Works";
 
   const localBusinessJsonLd = {
@@ -103,8 +117,8 @@ export default async function RootLayout({
     "name": companyName,
     "image": "https://km-inky.vercel.app/placeholder-product.jpg",
     "url": "https://km-inky.vercel.app",
-    "telephone": settings?.contactPhone || "+919876543210",
-    "email": settings?.contactEmail || "info@kmengineering.com",
+    "telephone": settings?.contactPhone || "+919821669131",
+    "email": settings?.contactEmail || "kmengineering1973@gmail.com",
     "priceRange": "₹₹ - ₹₹₹₹",
     "founder": {
       "@type": "Person",
@@ -113,7 +127,7 @@ export default async function RootLayout({
     },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": settings?.contactAddress || "Gala No.58, Azmi Compound, Near Kwality Bakery",
+      "streetAddress": settings?.contactAddress || "Workshop No. 58, Near Kwality Bakery, Azmi Compound, Khairani Road, Sakinaka",
       "addressLocality": "Mumbai",
       "postalCode": "400072",
       "addressRegion": "Maharashtra",
@@ -136,7 +150,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${plusJakartaSans.variable} ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -148,6 +162,8 @@ export default async function RootLayout({
           :root {
             --color-brand-primary: ${primaryColor};
             --color-brand-accent: ${accentColor};
+            --color-brand-secondary: ${secondaryColor};
+            --color-brand-whatsapp: ${whatsappColor};
           }
         `}} />
       </head>

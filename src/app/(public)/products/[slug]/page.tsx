@@ -219,19 +219,19 @@ export default async function ProductDetailPage({
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display text-brand-dark tracking-tight leading-tight">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display text-slate-900 tracking-tight leading-snug">
                 {product.title}
               </h1>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
                 <Button
                   asChild
-                  size="lg"
-                  className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-6 shadow-md"
+                  size="default"
+                  className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-5 h-10.5 rounded-xl shadow-xs text-xs sm:text-sm"
                 >
                   <a href="#quote-form">
-                    <PhoneCall className="w-4 h-4 mr-2" /> Get Instant Quote
+                    <PhoneCall className="w-4 h-4 mr-1.5" /> Get Instant Quote
                   </a>
                 </Button>
 
@@ -242,11 +242,11 @@ export default async function ProductDetailPage({
                   <Button
                     asChild
                     variant="outline"
-                    size="lg"
-                    className="border-slate-300 hover:bg-slate-50 font-medium"
+                    size="default"
+                    className="border-slate-300 hover:bg-slate-50 font-medium h-10.5 text-xs sm:text-sm rounded-xl"
                   >
                     <a href={product.brochureUrl} target="_blank" rel="noopener noreferrer">
-                      <FileText className="w-4 h-4 mr-2 text-slate-600" /> Download Brochure
+                      <FileText className="w-4 h-4 mr-1.5 text-slate-600" /> Download Brochure
                     </a>
                   </Button>
                 )}
@@ -254,30 +254,30 @@ export default async function ProductDetailPage({
             </div>
 
             {/* Description Card */}
-            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-              <h3 className="text-lg font-bold font-display text-brand-dark pb-2 border-b border-slate-100">
-                Machine Overview & Description
+            <div className="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200 shadow-xs space-y-3.5">
+              <h3 className="text-base sm:text-lg font-bold font-display text-slate-900 pb-2 border-b border-slate-100">
+                Machine Overview &amp; Description
               </h3>
               <div
-                className="prose max-w-none text-slate-600 text-sm sm:text-base leading-relaxed"
+                className="prose max-w-none text-slate-600 text-xs sm:text-sm leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: product.description }}
               />
             </div>
 
             {/* Key Features & Benefits */}
             {product.features && product.features.length > 0 && (
-              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                <h3 className="text-lg font-bold font-display text-brand-dark pb-2 border-b border-slate-100">
+              <div className="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200 shadow-xs space-y-3.5">
+                <h3 className="text-base sm:text-lg font-bold font-display text-slate-900 pb-2 border-b border-slate-100">
                   Key Technical Features
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                   {product.features.map((feature: string, idx: number) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100/80"
+                      className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-100/80"
                     >
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="text-sm font-medium text-slate-800 leading-snug">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span className="text-xs sm:text-sm font-medium text-slate-800 leading-snug">
                         {feature}
                       </span>
                     </div>
@@ -288,8 +288,8 @@ export default async function ProductDetailPage({
 
             {/* Technical Specifications Table */}
             {product.specifications && Object.keys(product.specifications).length > 0 && (
-              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                <h3 className="text-lg font-bold font-display text-brand-dark pb-2 border-b border-slate-100">
+              <div className="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200 shadow-xs space-y-3.5">
+                <h3 className="text-base sm:text-lg font-bold font-display text-slate-900 pb-2 border-b border-slate-100">
                   Technical Specifications
                 </h3>
                 <div className="overflow-hidden rounded-xl border border-slate-200">
@@ -301,14 +301,14 @@ export default async function ProductDetailPage({
             {/* Inquiry & Quote Form */}
             <div
               id="quote-form"
-              className="bg-white p-6 sm:p-8 rounded-2xl border border-brand-primary/20 shadow-md ring-1 ring-brand-primary/5"
+              className="bg-white p-5 sm:p-7 rounded-2xl border border-brand-primary/20 shadow-xs ring-1 ring-brand-primary/5"
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold">
-                  <PhoneCall className="w-5 h-5" />
+                <div className="w-9 h-9 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold">
+                  <PhoneCall className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold font-display text-brand-dark">
+                  <h3 className="text-base sm:text-lg font-bold font-display text-slate-900">
                     Request a Fast Quotation
                   </h3>
                   <p className="text-xs text-slate-500">
@@ -316,7 +316,7 @@ export default async function ProductDetailPage({
                   </p>
                 </div>
               </div>
-              <div className="mt-6">
+              <div className="mt-5">
                 <InquiryForm productId={product.slug} productName={product.title} />
               </div>
             </div>
@@ -324,14 +324,14 @@ export default async function ProductDetailPage({
         </div>
 
         {/* Related Machinery Section */}
-        <div className="border-t border-slate-200/80 pt-16 mb-8">
-          <div className="flex items-center justify-between mb-8">
+        <div className="border-t border-slate-200/80 pt-12 sm:pt-16 mb-8">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-brand-dark">
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-slate-900">
                 Explore More Machinery
               </h2>
-              <p className="text-sm text-slate-500 mt-1">
-                High precision equipment for industrial food & bakery processing.
+              <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+                High precision equipment for industrial food &amp; bakery processing.
               </p>
             </div>
             <Button asChild variant="outline" className="hidden sm:inline-flex border-slate-300">

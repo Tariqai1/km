@@ -15,6 +15,9 @@ import {
   ShieldCheck,
   User,
   Activity,
+  QrCode,
+  Smartphone,
+  FileText,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -29,6 +32,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { name: "Digital Profile", href: "/admin/business-profile", icon: Smartphone, badge: "/connect" },
+  { name: "Smart QR Hub", href: "/admin/qr-management", icon: QrCode, badge: "Active" },
+  { name: "Marketing Assets", href: "/admin/marketing-assets", icon: FileText, badge: "Print" },
   { name: "Live Visitors", href: "/admin/visitors", icon: Activity, badge: "Live" },
   { name: "Products", href: "/admin/products", icon: Package },
   { name: "Categories", href: "/admin/categories", icon: FolderOpen },

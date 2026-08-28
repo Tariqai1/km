@@ -1,6 +1,7 @@
 "use client";
 
-import { CldImage } from "next-cloudinary";
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -12,43 +13,40 @@ interface Category {
 }
 
 export default function CategoryCard({ category }: { category: Category }) {
+  const [imgError, setImgError] = useState(false);
   const imageUrl = typeof category.coverImage === 'object' && category.coverImage !== null 
     ? category.coverImage.url 
     : (typeof category.coverImage === 'string' ? category.coverImage : '');
 
-  const hasValidImage = imageUrl && !imageUrl.includes("placeholder.jpg") && !imageUrl.includes("placeholder-product");
+  const hasValidImage = !imgError && imageUrl && !imageUrl.includes("placeholder.jpg") && !imageUrl.includes("placeholder-product");
 
   return (
-    <Link href={`/products?category=${category.slug}`} className="block overflow-hidden rounded-2xl group">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-900">
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-brand-dark/90 via-brand-dark/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+    <Link href={`/products?category=${category.slug}`} className="block overflow-hidden rounded-2xl group border border-slate-200/80 shadow-xs hover:shadow-md transition-all">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900">
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent opacity-85 group-hover:opacity-95 transition-opacity"></div>
         
         {!hasValidImage ? (
-          <div className="w-full h-full bg-brand-secondary flex items-center justify-center">
-             <span className="text-brand-steel">No Image</span>
+          <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+             <span className="text-xs text-slate-400 font-medium">Category Showcase</span>
           </div>
-        ) : imageUrl.startsWith("/") ? (
-          <img
+        ) : (
+          <Image
             src={imageUrl}
             alt={category.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          />
-        ) : (
-          <CldImage
-            src={imageUrl.includes('res.cloudinary.com') ? imageUrl.split('/upload/v1/')[1] || imageUrl : imageUrl}
-            alt={category.name}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-            className="object-cover group-hover:scale-110 transition-transform duration-700"
+            unoptimized
+            onError={() => setImgError(true)}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         )}
 
-        <div className="absolute bottom-0 left-0 p-6 z-20 w-full transform group-hover:-translate-y-2 transition-transform duration-300">
-          <h3 className="text-2xl font-bold font-display text-white mb-1">
+        <div className="absolute bottom-0 left-0 p-4 sm:p-5 z-20 w-full transform group-hover:-translate-y-1 transition-transform duration-300">
+          <h3 className="text-base sm:text-lg font-bold font-display text-white mb-0.5 leading-snug">
             {category.name}
           </h3>
-          <p className="text-brand-accent font-medium">
-            {category.productCount} Products
+          <p className="text-xs text-brand-accent font-semibold">
+            {category.productCount ? `${category.productCount} Machines` : "Turnkey Plant Solution"}
           </p>
         </div>
       </div>

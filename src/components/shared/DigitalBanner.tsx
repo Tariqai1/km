@@ -74,59 +74,59 @@ export default function DigitalBanner({ settings }: DigitalBannerProps) {
               </div>
 
               {/* Bold Title */}
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display tracking-tight text-white leading-tight">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display tracking-tight text-white leading-tight">
                 {heading}
               </h2>
 
               {/* Subheading */}
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
                 {subheading}
               </p>
 
               {/* 4 Value Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-3 rounded-xl border border-white/10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
                   <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span className="text-xs font-semibold text-slate-200">100% SS-304 Certified Metallurgy</span>
                 </div>
-                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-3 rounded-xl border border-white/10">
+                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
                   <Wrench className="w-4 h-4 text-brand-accent shrink-0" />
                   <span className="text-xs font-semibold text-slate-200">Custom 3D CAD Factory Layout</span>
                 </div>
-                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-3 rounded-xl border border-white/10">
+                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
                   <Zap className="w-4 h-4 text-amber-400 shrink-0" />
                   <span className="text-xs font-semibold text-slate-200">Zero-Vibration Balanced Drive</span>
                 </div>
-                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-3 rounded-xl border border-white/10">
+                <div className="flex items-center gap-2.5 bg-white/5 backdrop-blur-md p-2.5 rounded-xl border border-white/10">
                   <TrendingUp className="w-4 h-4 text-blue-400 shrink-0" />
                   <span className="text-xs font-semibold text-slate-200">Direct Factory Pricing (Zero Markup)</span>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-4">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
                 <Button
                   asChild
-                  size="lg"
-                  className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-7 h-12 rounded-xl shadow-lg shadow-brand-accent/25 transition-transform active:scale-[0.98]"
+                  size="default"
+                  className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-6 h-11 rounded-xl shadow-md text-xs sm:text-sm transition-transform active:scale-[0.98]"
                 >
                   <Link href={ctaLink}>
-                    {ctaText} <ArrowRight className="w-4 h-4 ml-2" />
+                    {ctaText} <ArrowRight className="w-4 h-4 ml-1.5" />
                   </Link>
                 </Button>
 
                 <Button
                   asChild
-                  size="lg"
+                  size="default"
                   variant="outline"
-                  className="border-white/20 text-white hover:bg-white/10 font-semibold px-6 h-12 rounded-xl backdrop-blur-md"
+                  className="border-white/20 text-white hover:bg-white/10 font-semibold px-5 h-11 rounded-xl backdrop-blur-md text-xs sm:text-sm"
                 >
                   <a
                     href={`https://wa.me/91${phone.replace(/\D/g, "")}?text=Hello%20K.M.%20Engineering,%20I%20want%20information%20about%20turnkey%20food%20processing%20machinery.`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <MessageSquare className="w-4 h-4 mr-2 text-emerald-400" /> WhatsApp Engineer
+                    <MessageSquare className="w-4 h-4 mr-1.5 text-emerald-400" /> WhatsApp Engineer
                   </a>
                 </Button>
               </div>

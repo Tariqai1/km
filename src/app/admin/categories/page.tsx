@@ -89,10 +89,10 @@ export default function CategoriesManager() {
     try {
       setIsLoading(true);
       const res = await fetch("/api/categories");
-      if (res.ok) {
-        const data = await res.json();
-        setCategories(data.categories || data);
-      }
+        if (res.ok) {
+          const data = await res.json();
+          setCategories(Array.isArray(data) ? data : (Array.isArray(data?.categories) ? data.categories : []));
+        }
     } catch (error) {
       console.error("Failed to fetch categories:", error);
     } finally {

@@ -23,11 +23,15 @@ import {
   Award,
   Factory,
   Cog,
-  Sparkles
+  Sparkles,
+  ToggleLeft,
+  Sliders,
+  Layers,
+  QrCode
 } from "lucide-react";
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<"branding" | "hero" | "banner" | "about" | "stats" | "contact">("branding");
+  const [activeTab, setActiveTab] = useState<"branding" | "hero" | "features" | "banner" | "about" | "stats" | "contact">("branding");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -41,10 +45,32 @@ export default function SettingsPage() {
   const [heroSubheading, setHeroSubheading] = useState("");
   const [primaryColor, setPrimaryColor] = useState("#1B365D");
   const [accentColor, setAccentColor] = useState("#E8590C");
+  const [secondaryColor, setSecondaryColor] = useState("#071324");
+  const [whatsappColor, setWhatsappColor] = useState("#25D366");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [contactAddress, setContactAddress] = useState("");
   const [companyStats, setCompanyStats] = useState<{value: string, label: string}[]>([]);
+
+  // Hero Showcase Multi-Images State
+  const [heroImages, setHeroImages] = useState<{url: string, title: string, caption?: string}[]>([
+    {
+      url: "https://res.cloudinary.com/gksfzjxf/image/upload/v1/products/placeholder.jpg",
+      title: "50 Kg Commercial Spiral Dough Mixer",
+      caption: "Heavy Duty Dual-Speed Cast Chassis"
+    }
+  ]);
+
+  // Master Homepage Section On/Off Switches
+  const [showHeroShowcase, setShowHeroShowcase] = useState(true);
+  const [showQrRibbon, setShowQrRibbon] = useState(true);
+  const [showCategoriesSection, setShowCategoriesSection] = useState(true);
+  const [showFeaturedProducts, setShowFeaturedProducts] = useState(true);
+  const [showDigitalBanner, setShowDigitalBanner] = useState(true);
+  const [showClientReviews, setShowClientReviews] = useState(true);
+  const [showAboutSection, setShowAboutSection] = useState(true);
+  const [showStatsCounter, setShowStatsCounter] = useState(true);
+  const [showWhyChooseUs, setShowWhyChooseUs] = useState(true);
 
   // Digital Banner State
   const [bannerActive, setBannerActive] = useState(true);
@@ -89,12 +115,30 @@ export default function SettingsPage() {
           setHeroSubheading(data.heroSubheading || "");
           setPrimaryColor(data.primaryColor || "#1B365D");
           setAccentColor(data.accentColor || "#E8590C");
+          setSecondaryColor(data.secondaryColor || "#071324");
+          setWhatsappColor(data.whatsappColor || "#25D366");
           setContactEmail(data.contactEmail || "");
           setContactPhone(data.contactPhone || "");
           setContactAddress(data.contactAddress || "");
+          
           if (data.companyStats && Array.isArray(data.companyStats)) {
             setCompanyStats(data.companyStats);
           }
+
+          if (data.heroImages && Array.isArray(data.heroImages)) {
+            setHeroImages(data.heroImages);
+          }
+
+          // Section On/Off Switches
+          if (data.showHeroShowcase !== undefined) setShowHeroShowcase(data.showHeroShowcase);
+          if (data.showQrRibbon !== undefined) setShowQrRibbon(data.showQrRibbon);
+          if (data.showCategoriesSection !== undefined) setShowCategoriesSection(data.showCategoriesSection);
+          if (data.showFeaturedProducts !== undefined) setShowFeaturedProducts(data.showFeaturedProducts);
+          if (data.showDigitalBanner !== undefined) setShowDigitalBanner(data.showDigitalBanner);
+          if (data.showClientReviews !== undefined) setShowClientReviews(data.showClientReviews);
+          if (data.showAboutSection !== undefined) setShowAboutSection(data.showAboutSection);
+          if (data.showStatsCounter !== undefined) setShowStatsCounter(data.showStatsCounter);
+          if (data.showWhyChooseUs !== undefined) setShowWhyChooseUs(data.showWhyChooseUs);
 
           // Digital Banner
           if (data.bannerActive !== undefined) setBannerActive(data.bannerActive);
@@ -104,25 +148,26 @@ export default function SettingsPage() {
           if (data.bannerCtaText) setBannerCtaText(data.bannerCtaText);
           if (data.bannerCtaLink) setBannerCtaLink(data.bannerCtaLink);
 
-          // About fields
+          // About Page
           if (data.aboutHeading) setAboutHeading(data.aboutHeading);
           if (data.aboutStory) setAboutStory(data.aboutStory);
           if (data.founderName) setFounderName(data.founderName);
           if (data.founderTitle) setFounderTitle(data.founderTitle);
           if (data.founderQuote) setFounderQuote(data.founderQuote);
-          if (data.aboutHighlights && Array.isArray(data.aboutHighlights) && data.aboutHighlights.length > 0) {
+          if (data.aboutHighlights && Array.isArray(data.aboutHighlights)) {
             setAboutHighlights(data.aboutHighlights);
           }
-          if (data.machineryCapabilities && Array.isArray(data.machineryCapabilities) && data.machineryCapabilities.length > 0) {
+          if (data.machineryCapabilities && Array.isArray(data.machineryCapabilities)) {
             setMachineryCapabilities(data.machineryCapabilities);
           }
         }
       } catch (err) {
-        console.error("Failed to load settings", err);
+        console.error("Failed to load settings:", err);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchSettings();
   }, []);
 
@@ -133,49 +178,96 @@ export default function SettingsPage() {
     setSuccess("");
 
     try {
+      const payload = {
+        companyName,
+        logoUrl: logoImages[0]?.url || "/logo.png",
+        heroBannerUrl: heroBannerImages[0]?.url || "",
+        heroHeading,
+        heroSubheading,
+        primaryColor,
+        accentColor,
+        secondaryColor,
+        whatsappColor,
+        contactEmail,
+        contactPhone,
+        contactAddress,
+        companyStats,
+        heroImages,
+        // Section Switches
+        showHeroShowcase,
+        showQrRibbon,
+        showCategoriesSection,
+        showFeaturedProducts,
+        showDigitalBanner,
+        showClientReviews,
+        showAboutSection,
+        showStatsCounter,
+        showWhyChooseUs,
+        // Digital Banner
+        bannerActive,
+        bannerBadge,
+        bannerHeading,
+        bannerSubheading,
+        bannerCtaText,
+        bannerCtaLink,
+        // About Page
+        aboutHeading,
+        aboutStory,
+        founderName,
+        founderTitle,
+        founderQuote,
+        aboutHighlights,
+        machineryCapabilities
+      };
+
       const res = await fetch("/api/admin/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          companyName,
-          logoUrl: logoImages.length > 0 ? logoImages[0].url : "",
-          heroBannerUrl: heroBannerImages.length > 0 ? heroBannerImages[0].url : "",
-          heroHeading,
-          heroSubheading,
-          primaryColor,
-          accentColor,
-          contactEmail,
-          contactPhone,
-          contactAddress,
-          companyStats,
-          bannerActive,
-          bannerBadge,
-          bannerHeading,
-          bannerSubheading,
-          bannerCtaText,
-          bannerCtaLink,
-          aboutHeading,
-          aboutStory,
-          founderName,
-          founderTitle,
-          founderQuote,
-          aboutHighlights,
-          machineryCapabilities
-        }),
+        body: JSON.stringify(payload)
       });
 
       if (res.ok) {
         setSuccess("Settings updated successfully! Changes are live across the website.");
-        setTimeout(() => setSuccess(""), 4000);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         const data = await res.json();
-        setError(data.error || "Failed to update settings");
+        setError(data.error || "Failed to update settings.");
       }
     } catch {
-      setError("An unexpected error occurred while saving.");
+      setError("An unexpected network error occurred.");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Helper functions for hero images
+  const addHeroImage = () => {
+    setHeroImages([...heroImages, { url: "", title: "New Machinery Model", caption: "Precision SS-304" }]);
+  };
+
+  const updateHeroImage = (index: number, field: string, value: string) => {
+    const updated = [...heroImages];
+    updated[index] = { ...updated[index], [field]: value };
+    setHeroImages(updated);
+  };
+
+  const removeHeroImage = (index: number) => {
+    setHeroImages(heroImages.filter((_, i) => i !== index));
+  };
+
+  // Helper functions for stats
+  const addStat = () => {
+    setCompanyStats([...companyStats, { value: "100+", label: "New Metric" }]);
+  };
+
+  const updateStat = (index: number, field: "value" | "label", val: string) => {
+    const updated = [...companyStats];
+    updated[index][field] = val;
+    setCompanyStats(updated);
+  };
+
+  const removeStat = (index: number) => {
+    setCompanyStats(companyStats.filter((_, i) => i !== index));
   };
 
   if (isLoading) {
@@ -189,61 +281,68 @@ export default function SettingsPage() {
     );
   }
 
-  const navItems = [
+  const tabs = [
     { id: "branding", label: "Branding & Identity", icon: Building2, desc: "Company name, logo & theme colors" },
-    { id: "hero", label: "Hero & Homepage Banner", icon: ImageIcon, desc: "Main heading, subheading & banner image" },
-    { id: "banner", label: "Digital Banner / Creative", icon: Sparkles, desc: "Promo creative banner & turnkey setup offer" },
-    { id: "about", label: "About Page & Story", icon: BookOpen, desc: "Founder details, company story & capabilities" },
-    { id: "stats", label: "Company Stats & Metrics", icon: BarChart3, desc: "Homepage counter statistics" },
-    { id: "contact", label: "Contact Information", icon: MapPin, desc: "Email, phone & factory address" },
+    { id: "features", label: "Feature On/Off Switches", icon: ToggleLeft, desc: "Activate or deactivate website sections" },
+    { id: "hero", label: "Hero & Showcase Slider", icon: Type, desc: "Main headline & multi-image carousel" },
+    { id: "banner", label: "Digital Marketing Banner", icon: Sparkles, desc: "Custom plant consultation creative" },
+    { id: "about", label: "About Page & Story", icon: BookOpen, desc: "Founder biography & factory capabilities" },
+    { id: "stats", label: "Factory Milestones", icon: BarChart3, desc: "Experience, plants built & metrics" },
+    { id: "contact", label: "Contact & Works Location", icon: MapPin, desc: "Phones, email & factory address" },
   ] as const;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-16">
       
-      {/* Sticky Header with Save Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs sticky top-0 z-30">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div>
-          <h1 className="font-display font-bold text-2xl sm:text-3xl text-brand-primary">Website Settings</h1>
-          <p className="text-slate-500 text-sm mt-0.5">Customize your brand identity, colors, digital promo banners, and live content.</p>
+          <h1 className="font-display font-bold text-2xl sm:text-3xl text-brand-primary">
+            Website &amp; Brand Settings
+          </h1>
+          <p className="text-slate-500 text-sm mt-0.5">
+            Manage company credentials, hero slider photos, and activate/deactivate website features.
+          </p>
         </div>
-        <Button 
-          onClick={handleSubmit} 
-          size="lg" 
+
+        <Button
+          onClick={handleSubmit}
           disabled={isSubmitting}
-          className="bg-brand-primary hover:bg-brand-primary/90 text-white font-semibold shadow-md shrink-0 h-11 px-6"
+          size="lg"
+          className="bg-brand-primary hover:bg-brand-primary/90 text-white font-semibold shadow-md shrink-0 px-6"
         >
           {isSubmitting ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving Changes...
             </>
           ) : (
             <>
-              <Save className="mr-2 h-4 w-4" /> Save All Settings
+              <Save className="w-4 h-4 mr-2" /> Save All Settings
             </>
           )}
         </Button>
       </div>
 
       {/* Notifications */}
-      {error && (
-        <div className="bg-red-50 text-red-700 p-4 rounded-xl border border-red-200 text-sm flex items-center gap-2">
-          <span className="font-bold">Error:</span> {error}
-        </div>
-      )}
       {success && (
-        <div className="bg-emerald-50 text-emerald-700 p-4 rounded-xl border border-emerald-200 text-sm flex items-center gap-2 animate-in fade-in">
+        <div className="bg-emerald-50 text-emerald-700 p-4 rounded-xl border border-emerald-200 text-sm flex items-center gap-2">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
           <span>{success}</span>
         </div>
       )}
 
-      {/* Layout Grid: Sidebar Nav on Left, Content on Right */}
+      {error && (
+        <div className="bg-red-50 text-red-700 p-4 rounded-xl border border-red-200 text-sm">
+          {error}
+        </div>
+      )}
+
+      {/* Main Layout Grid: Left Sidebar Tabs + Right Form Content */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
         
         {/* Navigation Sidebar */}
-        <div className="md:col-span-4 bg-white rounded-2xl border border-slate-200 p-3 space-y-1 shadow-xs">
-          {navItems.map((item) => {
+        <div className="md:col-span-4 bg-white rounded-2xl border border-slate-200 p-3 space-y-1.5 shadow-xs sticky top-6">
+          {tabs.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
@@ -309,66 +408,361 @@ export default function SettingsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Paintbrush className="w-5 h-5 text-brand-primary" /> Brand Theme Colors
+                    <Paintbrush className="w-5 h-5 text-brand-primary" /> Brand Theme &amp; Color Studio
                   </CardTitle>
-                  <CardDescription>Customize the primary industrial theme colors used across the website.</CardDescription>
+                  <CardDescription>
+                    Admin can fully control all website colors — navbars, buttons, mobile menus, and backgrounds.
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="primaryColor">Primary Color (Navbars, Headings)</Label>
-                      <div className="flex items-center gap-3">
-                        <input 
-                          type="color" 
-                          id="primaryColorPicker"
-                          value={primaryColor} 
-                          onChange={(e) => setPrimaryColor(e.target.value)}
-                          className="h-10 w-12 rounded border border-slate-200 cursor-pointer p-1 bg-white"
-                        />
-                        <Input 
-                          id="primaryColor" 
-                          value={primaryColor} 
-                          onChange={(e) => setPrimaryColor(e.target.value)} 
-                          placeholder="#1B365D"
-                          className="font-mono uppercase text-sm"
-                        />
-                      </div>
+                <CardContent className="space-y-8">
+                  
+                  {/* 1-Click Industrial Theme Presets */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                        ⚡ 1-Click Theme Presets
+                      </Label>
+                      <span className="text-xs text-slate-400">Click any theme to apply instantly</span>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="accentColor">Accent / CTA Color (Buttons, Highlights)</Label>
-                      <div className="flex items-center gap-3">
-                        <input 
-                          type="color" 
-                          id="accentColorPicker"
-                          value={accentColor} 
-                          onChange={(e) => setAccentColor(e.target.value)}
-                          className="h-10 w-12 rounded border border-slate-200 cursor-pointer p-1 bg-white"
-                        />
-                        <Input 
-                          id="accentColor" 
-                          value={accentColor} 
-                          onChange={(e) => setAccentColor(e.target.value)} 
-                          placeholder="#E8590C"
-                          className="font-mono uppercase text-sm"
-                        />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {[
+                        {
+                          name: "Industrial Amber & Navy",
+                          tag: "Default Factory",
+                          p: "#1B365D",
+                          a: "#E8590C",
+                          s: "#071324",
+                          w: "#25D366"
+                        },
+                        {
+                          name: "Titanium Sapphire",
+                          tag: "Precision Tech",
+                          p: "#0F2942",
+                          a: "#0284C7",
+                          s: "#081320",
+                          w: "#25D366"
+                        },
+                        {
+                          name: "High-Tech Emerald",
+                          tag: "Clean Energy",
+                          p: "#1E293B",
+                          a: "#10B981",
+                          s: "#0A1118",
+                          w: "#25D366"
+                        },
+                        {
+                          name: "Royal Bronze Gold",
+                          tag: "Luxury Heritage",
+                          p: "#251814",
+                          a: "#D97706",
+                          s: "#110C0A",
+                          w: "#25D366"
+                        },
+                        {
+                          name: "Engineering Crimson",
+                          tag: "Bold Heavy Duty",
+                          p: "#18181B",
+                          a: "#E11D48",
+                          s: "#09090B",
+                          w: "#25D366"
+                        },
+                        {
+                          name: "Swiss Precision Violet",
+                          tag: "Modern Modernist",
+                          p: "#1E1B4B",
+                          a: "#6366F1",
+                          s: "#0B0A1A",
+                          w: "#25D366"
+                        }
+                      ].map((preset, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => {
+                            setPrimaryColor(preset.p);
+                            setAccentColor(preset.a);
+                            setSecondaryColor(preset.s);
+                            setWhatsappColor(preset.w);
+                          }}
+                          className="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-brand-primary bg-slate-50/60 hover:bg-slate-50 transition-all text-left group cursor-pointer"
+                        >
+                          <div>
+                            <div className="text-xs font-bold text-slate-900 group-hover:text-brand-primary transition-colors">
+                              {preset.name}
+                            </div>
+                            <div className="text-[10px] text-slate-500">{preset.tag}</div>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <span className="w-3.5 h-3.5 rounded-full border border-white shadow-xs" style={{ backgroundColor: preset.p }} title="Primary" />
+                            <span className="w-3.5 h-3.5 rounded-full border border-white shadow-xs" style={{ backgroundColor: preset.a }} title="Accent" />
+                            <span className="w-3.5 h-3.5 rounded-full border border-white shadow-xs" style={{ backgroundColor: preset.s }} title="Background" />
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 4 Granular Color Pickers */}
+                  <div className="space-y-4 pt-2 border-t border-slate-100">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                      Custom Color Palette Controls
+                    </Label>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      
+                      {/* 1. Primary Color */}
+                      <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="primaryColor" className="text-xs font-bold text-slate-800">
+                            1. Primary Brand Color
+                          </Label>
+                          <span className="text-[10px] text-slate-400">Desktop Navbars, Monograms</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <input 
+                            type="color" 
+                            id="primaryColorPicker"
+                            value={primaryColor} 
+                            onChange={(e) => setPrimaryColor(e.target.value)}
+                            className="h-10 w-12 rounded border border-slate-200 cursor-pointer p-1 bg-white shrink-0 shadow-xs"
+                          />
+                          <Input 
+                            id="primaryColor" 
+                            value={primaryColor} 
+                            onChange={(e) => setPrimaryColor(e.target.value)} 
+                            placeholder="#1B365D"
+                            className="font-mono uppercase text-sm bg-white"
+                          />
+                        </div>
+                      </div>
+
+                      {/* 2. Accent / CTA Color */}
+                      <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="accentColor" className="text-xs font-bold text-slate-800">
+                            2. Accent / CTA Color
+                          </Label>
+                          <span className="text-[10px] text-slate-400">Quote Buttons, Active Borders</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <input 
+                            type="color" 
+                            id="accentColorPicker"
+                            value={accentColor} 
+                            onChange={(e) => setAccentColor(e.target.value)}
+                            className="h-10 w-12 rounded border border-slate-200 cursor-pointer p-1 bg-white shrink-0 shadow-xs"
+                          />
+                          <Input 
+                            id="accentColor" 
+                            value={accentColor} 
+                            onChange={(e) => setAccentColor(e.target.value)} 
+                            placeholder="#E8590C"
+                            className="font-mono uppercase text-sm bg-white"
+                          />
+                        </div>
+                      </div>
+
+                      {/* 3. Dark Console & Background Color */}
+                      <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="secondaryColor" className="text-xs font-bold text-slate-800">
+                            3. Dark Console / Hero Color
+                          </Label>
+                          <span className="text-[10px] text-slate-400">Mobile Menu Canvas, Hero Base</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <input 
+                            type="color" 
+                            id="secondaryColorPicker"
+                            value={secondaryColor} 
+                            onChange={(e) => setSecondaryColor(e.target.value)}
+                            className="h-10 w-12 rounded border border-slate-200 cursor-pointer p-1 bg-white shrink-0 shadow-xs"
+                          />
+                          <Input 
+                            id="secondaryColor" 
+                            value={secondaryColor} 
+                            onChange={(e) => setSecondaryColor(e.target.value)} 
+                            placeholder="#071324"
+                            className="font-mono uppercase text-sm bg-white"
+                          />
+                        </div>
+                      </div>
+
+                      {/* 4. WhatsApp CTA Color */}
+                      <div className="space-y-2 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="whatsappColor" className="text-xs font-bold text-slate-800">
+                            4. WhatsApp Sales Color
+                          </Label>
+                          <span className="text-[10px] text-slate-400">WhatsApp Buttons &amp; Floating Chat</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <input 
+                            type="color" 
+                            id="whatsappColorPicker"
+                            value={whatsappColor} 
+                            onChange={(e) => setWhatsappColor(e.target.value)}
+                            className="h-10 w-12 rounded border border-slate-200 cursor-pointer p-1 bg-white shrink-0 shadow-xs"
+                          />
+                          <Input 
+                            id="whatsappColor" 
+                            value={whatsappColor} 
+                            onChange={(e) => setWhatsappColor(e.target.value)} 
+                            placeholder="#25D366"
+                            className="font-mono uppercase text-sm bg-white"
+                          />
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Live Real-Time Interactive Preview Widget */}
+                  <div className="pt-2 border-t border-slate-100 space-y-3">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+                      Live Real-Time Preview (Instant Simulation)
+                    </Label>
+
+                    <div 
+                      className="p-6 rounded-2xl border border-slate-800 transition-all text-white relative overflow-hidden shadow-xl"
+                      style={{ backgroundColor: secondaryColor }}
+                    >
+                      {/* Ambient corner glow */}
+                      <div 
+                        className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-2xl opacity-30 pointer-events-none"
+                        style={{ backgroundColor: accentColor }}
+                      />
+
+                      <div className="relative z-10 space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2.5">
+                            <div 
+                              className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs text-white shadow-xs"
+                              style={{ backgroundColor: primaryColor }}
+                            >
+                              KM
+                            </div>
+                            <div>
+                              <span className="font-bold text-xs block text-white">{companyName || "K.M. Engineering Works"}</span>
+                              <span className="text-[9px] block text-slate-400">Previewing Custom Colors</span>
+                            </div>
+                          </div>
+
+                          <span 
+                            className="text-[9px] font-bold px-2 py-0.5 rounded-md uppercase border"
+                            style={{ 
+                              borderColor: `${accentColor}80`, 
+                              color: accentColor, 
+                              backgroundColor: `${accentColor}20` 
+                            }}
+                          >
+                            Live Active Badge
+                          </span>
+                        </div>
+
+                        {/* Sample Active Mobile Link */}
+                        <div 
+                          className="p-3 rounded-xl border flex items-center justify-between"
+                          style={{ 
+                            borderColor: accentColor, 
+                            backgroundColor: "rgba(255, 255, 255, 0.08)" 
+                          }}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <div 
+                              className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold text-white"
+                              style={{ backgroundColor: accentColor }}
+                            >
+                              02
+                            </div>
+                            <span className="text-xs font-bold text-white">Machinery Catalog (Active State)</span>
+                          </div>
+                          <span className="text-xs font-bold" style={{ color: accentColor }}>→</span>
+                        </div>
+
+                        {/* Sample Dual Action Buttons */}
+                        <div className="grid grid-cols-2 gap-3 pt-1">
+                          <button
+                            type="button"
+                            className="py-2.5 px-3 rounded-xl font-bold text-xs text-white shadow-md flex items-center justify-center gap-1.5 transition-transform"
+                            style={{ backgroundColor: accentColor }}
+                          >
+                            Instant Quote →
+                          </button>
+                          <button
+                            type="button"
+                            className="py-2.5 px-3 rounded-xl font-bold text-xs text-white shadow-md flex items-center justify-center gap-1.5 transition-transform"
+                            style={{ backgroundColor: whatsappColor }}
+                          >
+                            WhatsApp Sales
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
+
                 </CardContent>
               </Card>
             </div>
           )}
 
-          {/* 2. HERO & HOMEPAGE BANNER */}
+          {/* 2. FEATURE ON/OFF SWITCHES */}
+          {activeTab === "features" && (
+            <div className="space-y-6 animate-in fade-in-50 duration-200">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ToggleLeft className="w-5 h-5 text-brand-primary" /> Master Homepage Section Switches
+                  </CardTitle>
+                  <CardDescription>
+                    Turn individual sections on the public homepage ON or OFF with a single click.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  
+                  {[
+                    { label: "Hero Machine Showcase Slider", desc: "3D animated multi-photo carousel in hero section", state: showHeroShowcase, setter: setShowHeroShowcase },
+                    { label: "Smart Dynamic QR Ribbon", desc: "Permanent visual strip linking to /connect profile", state: showQrRibbon, setter: setShowQrRibbon },
+                    { label: "Turnkey Plant Categories Grid", desc: "Tutti Frutti, Bakery, Chips, Namkeen, Sweets cards", state: showCategoriesSection, setter: setShowCategoriesSection },
+                    { label: "Featured Machinery Grid", desc: "Bestselling machines with specs & quote buttons", state: showFeaturedProducts, setter: setShowFeaturedProducts },
+                    { label: "Digital Marketing Banner", desc: "High-impact turnkey consultation creative offer", state: showDigitalBanner, setter: setShowDigitalBanner },
+                    { label: "Verified Client Reviews & Case Studies", desc: "Authentic customer testimonials from industrial clusters", state: showClientReviews, setter: setShowClientReviews },
+                    { label: "Company Heritage & Infrastructure Section", desc: "Founder story & factory machinery capabilities", state: showAboutSection, setter: setShowAboutSection },
+                    { label: "Factory Milestones Stats Counter", desc: "Years active, machines delivered, and clients strip", state: showStatsCounter, setter: setShowStatsCounter },
+                    { label: "Why Choose K.M. Engineering (3 Pillars)", desc: "Heavy metallurgy, 100% trial, and spare parts cards", state: showWhyChooseUs, setter: setShowWhyChooseUs },
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 transition-all">
+                      <div>
+                        <h4 className="font-bold text-sm text-slate-900">{item.label}</h4>
+                        <p className="text-xs text-slate-500">{item.desc}</p>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          checked={item.state} 
+                          onChange={(e) => item.setter(e.target.checked)} 
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                      </label>
+                    </div>
+                  ))}
+
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* 3. HERO & SHOWCASE SLIDER */}
           {activeTab === "hero" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Type className="w-5 h-5 text-brand-primary" /> Hero Text & Headlines
+                    <Type className="w-5 h-5 text-brand-primary" /> Hero Text &amp; Headlines
                   </CardTitle>
-                  <CardDescription>The very first text that prospective buyers see on your landing page.</CardDescription>
+                  <CardDescription>The main headline and value proposition that prospective buyers see.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   <div className="space-y-2">
@@ -384,12 +778,12 @@ export default function SettingsPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="heroSubheading">Subheading & Value Proposition</Label>
+                    <Label htmlFor="heroSubheading">Subheading &amp; Value Proposition</Label>
                     <Textarea 
                       id="heroSubheading" 
                       value={heroSubheading} 
                       onChange={(e) => setHeroSubheading(e.target.value)} 
-                      placeholder="e.g. Mumbai's trusted manufacturer of high-quality, durable machinery..."
+                      placeholder="e.g. Mumbai's trusted manufacturer of high-quality machinery..."
                       className="min-h-[100px] leading-relaxed"
                       required 
                     />
@@ -397,37 +791,84 @@ export default function SettingsPage() {
                 </CardContent>
               </Card>
 
+              {/* Multi-Image Showcase Carousel Manager */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <ImageIcon className="w-5 h-5 text-brand-primary" /> Hero Banner Image
-                  </CardTitle>
-                  <CardDescription>The showcase banner image displayed on the homepage hero section.</CardDescription>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2">
+                        <ImageIcon className="w-5 h-5 text-brand-primary" /> Multi-Image Showcase Slider
+                      </CardTitle>
+                      <CardDescription>Images displayed in the 3D smooth auto-cycling carousel on the homepage.</CardDescription>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={addHeroImage}
+                      className="text-xs font-semibold"
+                    >
+                      <Plus className="w-3.5 h-3.5 mr-1" /> Add Slide
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <ImageUploader 
-                    images={heroBannerImages} 
-                    onChange={setHeroBannerImages} 
-                    maxImages={1} 
-                  />
+                  {heroImages.map((img, idx) => (
+                    <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-700">Slide #{idx + 1}</span>
+                        {heroImages.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeHeroImage(idx)}
+                            className="h-7 w-7 text-slate-400 hover:text-red-600"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                          <Label className="text-xs">Image URL / Cloudinary Link</Label>
+                          <Input
+                            value={img.url}
+                            onChange={(e) => updateHeroImage(idx, "url", e.target.value)}
+                            placeholder="https://res.cloudinary.com/..."
+                            className="text-xs font-mono"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Machine Model Title</Label>
+                          <Input
+                            value={img.title}
+                            onChange={(e) => updateHeroImage(idx, "title", e.target.value)}
+                            placeholder="e.g. 50 Kg Commercial Spiral Dough Mixer"
+                            className="text-xs font-semibold"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             </div>
           )}
 
-          {/* 3. DIGITAL BANNER / MARKETING CREATIVE */}
+          {/* 4. DIGITAL MARKETING BANNER */}
           {activeTab === "banner" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-brand-accent" /> Digital Banner & Turnkey Offer Creative
+                    <Sparkles className="w-5 h-5 text-brand-accent" /> Digital Banner &amp; Turnkey Offer Creative
                   </CardTitle>
-                  <CardDescription>Configure the high-impact marketing banner displayed across the homepage.</CardDescription>
+                  <CardDescription>Configure the marketing banner displayed on the homepage.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   
-                  {/* Active Toggle */}
                   <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200">
                     <div>
                       <h4 className="font-bold text-sm text-slate-900">Show Digital Banner on Website</h4>
@@ -447,51 +888,50 @@ export default function SettingsPage() {
                   <div className="space-y-2">
                     <Label htmlFor="bannerBadge">Promo Badge / Tagline</Label>
                     <Input 
-                      id="bannerBadge"
-                      value={bannerBadge}
-                      onChange={(e) => setBannerBadge(e.target.value)}
-                      placeholder="e.g. 🔥 Special B2B Factory Initiative"
+                      id="bannerBadge" 
+                      value={bannerBadge} 
+                      onChange={(e) => setBannerBadge(e.target.value)} 
+                      placeholder="🔥 Special B2B Factory Initiative"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="bannerHeading">Banner Headline</Label>
+                    <Label htmlFor="bannerHeading">Main Offer Heading</Label>
                     <Input 
-                      id="bannerHeading"
-                      value={bannerHeading}
-                      onChange={(e) => setBannerHeading(e.target.value)}
-                      placeholder="e.g. Turnkey Commercial Bakery & Food Processing Plant Setup"
+                      id="bannerHeading" 
+                      value={bannerHeading} 
+                      onChange={(e) => setBannerHeading(e.target.value)} 
+                      placeholder="Turnkey Commercial Bakery & Food Processing Plant Setup"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="bannerSubheading">Banner Value Pitch / Description</Label>
+                    <Label htmlFor="bannerSubheading">Detailed Pitch & Guarantee</Label>
                     <Textarea 
-                      id="bannerSubheading"
-                      rows={3}
-                      value={bannerSubheading}
-                      onChange={(e) => setBannerSubheading(e.target.value)}
-                      placeholder="e.g. Get customized 3D plant layout engineering, genuine SS-304 food-grade machinery..."
-                      className="leading-relaxed"
+                      id="bannerSubheading" 
+                      value={bannerSubheading} 
+                      onChange={(e) => setBannerSubheading(e.target.value)} 
+                      placeholder="Get customized 3D plant layout engineering..."
+                      className="min-h-[90px]"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="bannerCtaText">Button Text</Label>
+                      <Label htmlFor="bannerCtaText">CTA Button Text</Label>
                       <Input 
-                        id="bannerCtaText"
-                        value={bannerCtaText}
-                        onChange={(e) => setBannerCtaText(e.target.value)}
+                        id="bannerCtaText" 
+                        value={bannerCtaText} 
+                        onChange={(e) => setBannerCtaText(e.target.value)} 
                         placeholder="Request Custom Plant Consultation"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="bannerCtaLink">Button Link</Label>
+                      <Label htmlFor="bannerCtaLink">CTA Button Link</Label>
                       <Input 
-                        id="bannerCtaLink"
-                        value={bannerCtaLink}
-                        onChange={(e) => setBannerCtaLink(e.target.value)}
+                        id="bannerCtaLink" 
+                        value={bannerCtaLink} 
+                        onChange={(e) => setBannerCtaLink(e.target.value)} 
                         placeholder="/contact"
                       />
                     </div>
@@ -502,237 +942,65 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {/* 4. ABOUT US & STORY (FULL CRUD) */}
+          {/* 5. ABOUT PAGE & STORY */}
           {activeTab === "about" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
-              
-              {/* Main Headline & Story */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-brand-primary" /> About Page Story & Mission
+                    <BookOpen className="w-5 h-5 text-brand-primary" /> Founder &amp; Heritage
                   </CardTitle>
-                  <CardDescription>Edit the company heritage and manufacturing narrative.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-5">
-                  <div className="space-y-2">
-                    <Label htmlFor="aboutHeading">About Section Headline</Label>
-                    <Input 
-                      id="aboutHeading"
-                      value={aboutHeading}
-                      onChange={(e) => setAboutHeading(e.target.value)}
-                      placeholder="e.g. Pioneering Precision in Food Processing Machinery"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="aboutStory">Company Heritage & Manufacturing Story</Label>
-                    <Textarea 
-                      id="aboutStory"
-                      rows={5}
-                      value={aboutStory}
-                      onChange={(e) => setAboutStory(e.target.value)}
-                      placeholder="Describe your factory background, manufacturing experience, and quality standards..."
-                      className="leading-relaxed"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Founder Information */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Award className="w-5 h-5 text-brand-primary" /> Founder Profile & Vision
-                  </CardTitle>
-                  <CardDescription>Founder credentials displayed in the leadership highlight card.</CardDescription>
+                  <CardDescription>Story and leadership credentials of K.M. Engineering Works.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="founderName">Founder & MD Name</Label>
+                      <Label htmlFor="founderName">Founder &amp; MD Name</Label>
                       <Input 
-                        id="founderName"
-                        value={founderName}
-                        onChange={(e) => setFounderName(e.target.value)}
-                        placeholder="Abdulkaleem Abdulkadar Sayyed"
+                        id="founderName" 
+                        value={founderName} 
+                        onChange={(e) => setFounderName(e.target.value)} 
+                        placeholder="Abdul Kaleem Sayyed"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="founderTitle">Official Title</Label>
+                      <Label htmlFor="founderTitle">Leadership Title</Label>
                       <Input 
-                        id="founderTitle"
-                        value={founderTitle}
-                        onChange={(e) => setFounderTitle(e.target.value)}
+                        id="founderTitle" 
+                        value={founderTitle} 
+                        onChange={(e) => setFounderTitle(e.target.value)} 
                         placeholder="Founder & Managing Director"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="founderQuote">Founder Commitment / Quote</Label>
+                    <Label htmlFor="founderQuote">Founder's Vision / Quote</Label>
                     <Textarea 
-                      id="founderQuote"
-                      rows={3}
-                      value={founderQuote}
-                      onChange={(e) => setFounderQuote(e.target.value)}
+                      id="founderQuote" 
+                      value={founderQuote} 
+                      onChange={(e) => setFounderQuote(e.target.value)} 
                       placeholder="Our commitment is simple: build machinery that operates reliably 24/7..."
+                      className="min-h-[80px]"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="aboutStory">Company Biography &amp; Factory Background</Label>
+                    <Textarea 
+                      id="aboutStory" 
+                      value={aboutStory} 
+                      onChange={(e) => setAboutStory(e.target.value)} 
+                      placeholder="Established under the visionary leadership of Abdul Kaleem Sayyed..."
+                      className="min-h-[120px]"
                     />
                   </div>
                 </CardContent>
               </Card>
-
-              {/* Key Highlights / Pillars (Add / Remove CRUD) */}
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2">
-                        <Factory className="w-5 h-5 text-brand-primary" /> Key Highlights & Quality Standards
-                      </CardTitle>
-                      <CardDescription>The feature cards highlighting your manufacturing edge.</CardDescription>
-                    </div>
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setAboutHighlights([...aboutHighlights, { title: "", desc: "" }])}
-                      className="border-slate-300"
-                    >
-                      <Plus className="w-4 h-4 mr-1.5" /> Add Pillar
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {aboutHighlights.map((hl, idx) => (
-                    <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3 relative group">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Highlight #{idx + 1}</span>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setAboutHighlights(aboutHighlights.filter((_, i) => i !== idx))}
-                          className="h-7 w-7 text-slate-400 hover:text-red-600 hover:bg-red-50"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-2">
-                        <Input 
-                          value={hl.title}
-                          placeholder="e.g. 100% Food-Grade Metallurgy"
-                          onChange={(e) => {
-                            const updated = [...aboutHighlights];
-                            updated[idx].title = e.target.value;
-                            setAboutHighlights(updated);
-                          }}
-                          className="font-semibold text-sm bg-white"
-                        />
-                        <Textarea 
-                          rows={2}
-                          value={hl.desc}
-                          placeholder="e.g. All product contact parts fabricated exclusively in certified SS-304..."
-                          onChange={(e) => {
-                            const updated = [...aboutHighlights];
-                            updated[idx].desc = e.target.value;
-                            setAboutHighlights(updated);
-                          }}
-                          className="text-xs bg-white"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              {/* Machinery Capabilities (Add / Remove CRUD) */}
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="flex items-center gap-2">
-                        <Cog className="w-5 h-5 text-brand-primary" /> Machinery Expertise & Capabilities
-                      </CardTitle>
-                      <CardDescription>List of machinery lines displayed on the About page grid.</CardDescription>
-                    </div>
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setMachineryCapabilities([...machineryCapabilities, { title: "", desc: "", capacity: "" }])}
-                      className="border-slate-300"
-                    >
-                      <Plus className="w-4 h-4 mr-1.5" /> Add Capability
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {machineryCapabilities.map((cap, idx) => (
-                    <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-3 relative">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Capability #{idx + 1}</span>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setMachineryCapabilities(machineryCapabilities.filter((_, i) => i !== idx))}
-                          className="h-7 w-7 text-slate-400 hover:text-red-600 hover:bg-red-50"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className="space-y-1">
-                          <Label className="text-xs text-slate-500">Machine Name / Type</Label>
-                          <Input 
-                            value={cap.title}
-                            placeholder="e.g. Commercial Spiral Dough Mixers"
-                            onChange={(e) => {
-                              const updated = [...machineryCapabilities];
-                              updated[idx].title = e.target.value;
-                              setMachineryCapabilities(updated);
-                            }}
-                            className="font-medium text-sm bg-white"
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <Label className="text-xs text-slate-500">Standard Capacity</Label>
-                          <Input 
-                            value={cap.capacity}
-                            placeholder="e.g. 25 Kg, 50 Kg, 100 Kg"
-                            onChange={(e) => {
-                              const updated = [...machineryCapabilities];
-                              updated[idx].capacity = e.target.value;
-                              setMachineryCapabilities(updated);
-                            }}
-                            className="text-sm bg-white"
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-1">
-                        <Label className="text-xs text-slate-500">Description</Label>
-                        <Textarea 
-                          rows={2}
-                          value={cap.desc}
-                          placeholder="Dual-speed heavy duty mixers engineered for bakeries..."
-                          onChange={(e) => {
-                            const updated = [...machineryCapabilities];
-                            updated[idx].desc = e.target.value;
-                            setMachineryCapabilities(updated);
-                          }}
-                          className="text-xs bg-white"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-
             </div>
           )}
 
-          {/* 5. COMPANY STATS */}
+          {/* 6. FACTORY MILESTONES */}
           {activeTab === "stats" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <Card>
@@ -740,103 +1008,85 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-brand-primary" /> Key Company Milestones
+                        <BarChart3 className="w-5 h-5 text-brand-primary" /> Key Industrial Milestones
                       </CardTitle>
-                      <CardDescription>Credibility metrics displayed in the counter section.</CardDescription>
+                      <CardDescription>Numeric proof points shown on the homepage counter strip.</CardDescription>
                     </div>
                     <Button 
                       type="button" 
                       variant="outline" 
-                      size="sm"
-                      onClick={() => setCompanyStats([...companyStats, { value: "", label: "" }])}
-                      className="border-slate-300"
+                      size="sm" 
+                      onClick={addStat}
+                      className="text-xs font-semibold"
                     >
-                      <Plus className="w-4 h-4 mr-1.5" /> Add Metric
+                      <Plus className="w-3.5 h-3.5 mr-1" /> Add Milestone
                     </Button>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {companyStats.length === 0 ? (
-                    <div className="text-center py-8 text-slate-400 text-sm">
-                      No metrics added. Click &quot;Add Metric&quot; to create one.
-                    </div>
-                  ) : (
-                    companyStats.map((stat, idx) => (
-                      <div key={idx} className="flex gap-4 items-center p-4 rounded-xl bg-slate-50 border border-slate-100">
-                        <div className="w-1/3 space-y-1.5">
-                          <Label className="text-xs text-slate-500">Value (e.g. 15+, 500+)</Label>
-                          <Input 
-                            value={stat.value} 
-                            placeholder="500+" 
-                            onChange={(e) => {
-                              const updated = [...companyStats];
-                              updated[idx].value = e.target.value;
-                              setCompanyStats(updated);
-                            }}
-                            className="font-bold text-brand-accent bg-white"
-                          />
-                        </div>
-                        <div className="flex-1 space-y-1.5">
-                          <Label className="text-xs text-slate-500">Label (e.g. Machines Delivered)</Label>
-                          <Input 
-                            value={stat.label} 
-                            placeholder="Machines Delivered" 
-                            onChange={(e) => {
-                              const updated = [...companyStats];
-                              updated[idx].label = e.target.value;
-                              setCompanyStats(updated);
-                            }}
-                            className="bg-white"
-                          />
-                        </div>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setCompanyStats(companyStats.filter((_, i) => i !== idx))}
-                          className="text-slate-400 hover:text-red-600 hover:bg-red-50 self-end mb-1"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
+                  {companyStats.map((stat, idx) => (
+                    <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                      <div className="w-1/3 space-y-1">
+                        <Label className="text-xs">Value (e.g. 15+, 500+)</Label>
+                        <Input 
+                          value={stat.value} 
+                          onChange={(e) => updateStat(idx, "value", e.target.value)} 
+                          className="font-bold text-brand-primary"
+                        />
                       </div>
-                    ))
-                  )}
+                      <div className="flex-1 space-y-1">
+                        <Label className="text-xs">Description Label</Label>
+                        <Input 
+                          value={stat.label} 
+                          onChange={(e) => updateStat(idx, "label", e.target.value)} 
+                        />
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeStat(idx)}
+                        className="text-slate-400 hover:text-red-600 hover:bg-red-50 shrink-0 mt-5"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
             </div>
           )}
 
-          {/* 6. CONTACT INFORMATION */}
+          {/* 7. CONTACT & LOCATION */}
           {activeTab === "contact" && (
             <div className="space-y-6 animate-in fade-in-50 duration-200">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-brand-primary" /> Official Communication Details
+                    <MapPin className="w-5 h-5 text-brand-primary" /> Contact Details &amp; Factory Address
                   </CardTitle>
-                  <CardDescription>Contact details displayed across Header, Footer, and Contact Us page.</CardDescription>
+                  <CardDescription>Shown in the website header, footer, contact page, and digital business profile.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="contactEmail">Official Support Email</Label>
-                      <Input 
-                        id="contactEmail" 
-                        type="email"
-                        value={contactEmail} 
-                        onChange={(e) => setContactEmail(e.target.value)} 
-                        placeholder="info@kmengineering.com"
-                        required 
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="contactPhone">Primary Sales Phone</Label>
+                      <Label htmlFor="contactPhone">Primary Hotline / WhatsApp</Label>
                       <Input 
                         id="contactPhone" 
                         value={contactPhone} 
                         onChange={(e) => setContactPhone(e.target.value)} 
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 9821669131"
+                        required 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="contactEmail">Official Inquiries Email</Label>
+                      <Input 
+                        id="contactEmail" 
+                        type="email" 
+                        value={contactEmail} 
+                        onChange={(e) => setContactEmail(e.target.value)} 
+                        placeholder="kmengineering1973@gmail.com"
                         required 
                       />
                     </div>
@@ -846,11 +1096,10 @@ export default function SettingsPage() {
                     <Label htmlFor="contactAddress">Factory / Works Address</Label>
                     <Textarea 
                       id="contactAddress" 
-                      rows={3}
                       value={contactAddress} 
                       onChange={(e) => setContactAddress(e.target.value)} 
-                      placeholder="Gala No.58, Azmi Compound, Near Kwality Bakery, Mumbai - 400072, Maharashtra, India"
-                      className="leading-relaxed"
+                      placeholder="Workshop No. 58, Near Kwality Bakery, Azmi Compound, Khairani Road, Sakinaka, Mumbai – 400072"
+                      className="min-h-[90px]"
                       required 
                     />
                   </div>
@@ -860,7 +1109,9 @@ export default function SettingsPage() {
           )}
 
         </div>
+
       </div>
+
     </div>
   );
 }

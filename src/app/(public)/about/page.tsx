@@ -72,16 +72,16 @@ export default async function AboutPage() {
     <div className="bg-brand-light min-h-screen">
       
       {/* Hero Header */}
-      <section className="bg-gradient-to-r from-brand-primary via-slate-900 to-brand-secondary text-white py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-brand-accent text-xs font-semibold uppercase tracking-wider mb-4">
-            <Building2 className="w-3.5 h-3.5" /> Company Heritage & Capabilities
+      <section className="bg-gradient-to-r from-brand-primary via-slate-900 to-brand-secondary text-white py-12 sm:py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-brand-accent text-xs font-semibold uppercase tracking-wider mb-3">
+            <Building2 className="w-3.5 h-3.5" /> Company Heritage &amp; Capabilities
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white mb-6">
-            Engineering Precision for India&apos;s Food & Bakery Industry
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display tracking-tight text-white mb-4 leading-tight">
+            Engineering Precision for India&apos;s Food &amp; Bakery Industry
           </h1>
-          <div className="w-20 h-1 bg-brand-accent mx-auto rounded-full mb-6"></div>
-          <p className="text-slate-300 text-lg md:text-xl leading-relaxed">
+          <div className="w-16 h-1 bg-brand-accent mx-auto rounded-full mb-4"></div>
+          <p className="text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
             Delivering heavy-duty, food-grade stainless steel machinery with unmatched durability, low maintenance, and pan-India technical support.
           </p>
         </div>
@@ -96,35 +96,35 @@ export default async function AboutPage() {
       <AboutSection initialSettings={settings ? JSON.parse(JSON.stringify(settings)) : null} />
 
       {/* Machinery Manufacturing Capabilities Grid */}
-      <section className="py-20 bg-slate-50 border-t border-b border-slate-200/80">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-semibold uppercase tracking-wider mb-3">
+      <section className="py-16 sm:py-20 bg-slate-50 border-t border-b border-slate-200/80">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-semibold uppercase tracking-wider mb-2.5">
               <Factory className="w-3.5 h-3.5" /> Manufacturing Scope
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold font-display text-brand-dark">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display text-slate-900">
               Our Core Machinery Capabilities
             </h2>
-            <div className="w-20 h-1 bg-brand-accent mx-auto rounded-full mt-3 mb-4"></div>
-            <p className="text-slate-600 text-base">
+            <div className="w-16 h-1 bg-brand-accent mx-auto rounded-full mt-2.5 mb-3"></div>
+            <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed">
               Every machine is fabricated with certified SS-304/SS-316 stainless steel, heavy cast frames, and premium electrical drive gearboxes.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {machineryCapabilities.map((item: any, idx: number) => (
-              <div key={idx} className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div key={idx} className="bg-white p-5 sm:p-7 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-sm transition-shadow flex flex-col justify-between">
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold mb-4">
+                  <div className="w-9 h-9 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold text-xs mb-3.5">
                     0{idx + 1}
                   </div>
-                  <h3 className="text-xl font-bold font-display text-brand-dark mb-2">{item.title}</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.desc}</p>
+                  <h3 className="text-base sm:text-lg font-bold font-display text-slate-900 mb-1.5">{item.title}</h3>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">{item.desc}</p>
                 </div>
                 {item.capacity && (
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-xs text-slate-500 font-medium">Standard Capacities:</span>
-                    <span className="text-xs font-bold text-brand-accent">{item.capacity}</span>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span className="text-slate-500 font-medium">Capacities:</span>
+                    <span className="font-bold text-brand-accent">{item.capacity}</span>
                   </div>
                 )}
               </div>
@@ -137,21 +137,21 @@ export default async function AboutPage() {
       <MachineReviews />
 
       {/* Factory Visit & Consultation CTA */}
-      <section className="py-16 bg-brand-primary text-white text-center">
-        <div className="container mx-auto px-4 md:px-6 max-w-3xl space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-bold font-display">
+      <section className="py-14 sm:py-16 bg-brand-primary text-white text-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl space-y-4">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display">
             Plan a Factory Visit or Request Machine Demos
           </h2>
-          <p className="text-slate-300 text-base sm:text-lg">
+          <p className="text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed">
             Visit our Mumbai manufacturing works at <strong>{address}</strong> to inspect running demo units.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <Button asChild size="lg" className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-8 h-12 rounded-xl">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <Button asChild size="default" className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-6 h-11 rounded-xl text-xs sm:text-sm">
               <Link href="/contact">
-                Contact Engineering Office <ArrowRight className="ml-2 w-4 h-4" />
+                Contact Engineering Office <ArrowRight className="ml-1.5 w-4 h-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 h-12 rounded-xl">
+            <Button asChild size="default" variant="outline" className="border-white/30 text-white hover:bg-white/10 h-11 px-5 rounded-xl text-xs sm:text-sm">
               <Link href="/products">
                 Browse Full Catalog
               </Link>

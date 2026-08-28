@@ -16,18 +16,37 @@ export interface IMachineryCapability {
   capacity: string;
 }
 
+export interface IHeroShowcaseImage {
+  url: string;
+  title: string;
+  caption?: string;
+}
+
 export interface ISettings extends Document {
   companyName: string;
   logoUrl: string;
   heroBannerUrl: string;
+  heroImages: IHeroShowcaseImage[];
   heroHeading: string;
   heroSubheading: string;
   primaryColor: string;
   accentColor: string;
+  secondaryColor?: string;
+  whatsappColor?: string;
   contactEmail: string;
   contactPhone: string;
   contactAddress: string;
   companyStats: ICompanyStat[];
+  // Section On/Off Master Feature Switches
+  showHeroShowcase: boolean;
+  showQrRibbon: boolean;
+  showCategoriesSection: boolean;
+  showFeaturedProducts: boolean;
+  showDigitalBanner: boolean;
+  showClientReviews: boolean;
+  showAboutSection: boolean;
+  showStatsCounter: boolean;
+  showWhyChooseUs: boolean;
   // Digital Banner / Marketing Creative Fields
   bannerActive?: boolean;
   bannerBadge?: string;
@@ -63,11 +82,27 @@ const capabilitySchema = new Schema<IMachineryCapability>({
   capacity: { type: String, default: "" }
 }, { _id: false });
 
+const heroImageSchema = new Schema<IHeroShowcaseImage>({
+  url: { type: String, required: true },
+  title: { type: String, default: "Commercial Food Processing Machinery" },
+  caption: { type: String, default: "Precision Engineered SS-304" }
+}, { _id: false });
+
 const settingsSchema = new Schema<ISettings>(
   {
     companyName: { type: String, required: true, default: "K.M. Engineering Works" },
-    logoUrl: { type: String, default: "" },
+    logoUrl: { type: String, default: "/logo.png" },
     heroBannerUrl: { type: String, default: "" },
+    heroImages: { 
+      type: [heroImageSchema], 
+      default: [
+        { 
+          url: "https://res.cloudinary.com/gksfzjxf/image/upload/v1/products/placeholder.jpg",
+          title: "50 Kg Commercial Spiral Dough Mixer",
+          caption: "Heavy Duty Dual-Speed Cast Chassis"
+        }
+      ] 
+    },
     heroHeading: { 
       type: String, 
       required: true, 
@@ -80,9 +115,11 @@ const settingsSchema = new Schema<ISettings>(
     },
     primaryColor: { type: String, required: true, default: "#1B365D" },
     accentColor: { type: String, required: true, default: "#E8590C" },
-    contactEmail: { type: String, required: true, default: "info@kmengineering.com" },
-    contactPhone: { type: String, required: true, default: "+91 98765 43210" },
-    contactAddress: { type: String, required: true, default: "Gala No.58, Azmi Compound, Near Kwality Bakery, Mumbai - 400072, Maharashtra, India" },
+    secondaryColor: { type: String, default: "#071324" },
+    whatsappColor: { type: String, default: "#25D366" },
+    contactEmail: { type: String, required: true, default: "kmengineering1973@gmail.com" },
+    contactPhone: { type: String, required: true, default: "+91 9821669131" },
+    contactAddress: { type: String, required: true, default: "Workshop No. 58, Near Kwality Bakery, Azmi Compound, Khairani Road, Sakinaka, Mumbai – 400072, Maharashtra, India" },
     companyStats: { 
       type: [statSchema], 
       default: [
@@ -92,6 +129,16 @@ const settingsSchema = new Schema<ISettings>(
         { value: "Pan-India", label: "Service Network" }
       ]
     },
+    // Homepage Section Visibility Toggles (Admin Controlled)
+    showHeroShowcase: { type: Boolean, default: true },
+    showQrRibbon: { type: Boolean, default: true },
+    showCategoriesSection: { type: Boolean, default: true },
+    showFeaturedProducts: { type: Boolean, default: true },
+    showDigitalBanner: { type: Boolean, default: true },
+    showClientReviews: { type: Boolean, default: true },
+    showAboutSection: { type: Boolean, default: true },
+    showStatsCounter: { type: Boolean, default: true },
+    showWhyChooseUs: { type: Boolean, default: true },
     // Digital Banner / Marketing Creative Settings
     bannerActive: { type: Boolean, default: true },
     bannerBadge: { type: String, default: "Special Factory Direct Initiative" },
@@ -106,11 +153,11 @@ const settingsSchema = new Schema<ISettings>(
     },
     aboutStory: { 
       type: String, 
-      default: "Established under the visionary leadership of Abdulkaleem Abdulkadar Sayyed, K.M. Engineering Works has grown into Mumbai's leading manufacturer of commercial bakery equipment, tutti frutti processing lines, and high-efficiency screening machinery." 
+      default: "Established under the visionary leadership of Abdul Kaleem Sayyed, K.M. Engineering Works has grown into Mumbai's leading manufacturer of commercial bakery equipment, tutti frutti processing lines, and high-efficiency screening machinery." 
     },
     founderName: { 
       type: String, 
-      default: "Abdulkaleem Abdulkadar Sayyed" 
+      default: "Abdul Kaleem Sayyed" 
     },
     founderTitle: { 
       type: String, 

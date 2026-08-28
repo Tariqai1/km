@@ -25,30 +25,32 @@ export default function TrustBadges() {
   };
 
   return (
-    <motion.div 
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true }}
-      className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8"
-    >
-      {badges.map((badge, idx) => {
-        const Icon = badge.icon;
-        return (
-          <motion.div 
-            key={idx}
-            variants={item}
-            className="flex flex-col items-center justify-center p-4 rounded-2xl bg-brand-light border border-gray-100 text-center gap-3 shadow-sm hover:shadow-md transition-shadow"
-          >
-            <div className="p-3 bg-brand-primary/10 rounded-full text-brand-primary">
-              <Icon className="w-6 h-6" />
-            </div>
-            <span className="font-semibold text-brand-dark text-sm md:text-base">
-              {badge.text}
-            </span>
-          </motion.div>
-        );
-      })}
-    </motion.div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.div 
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 py-6 sm:py-8"
+      >
+        {badges.map((badge, idx) => {
+          const Icon = badge.icon;
+          return (
+            <motion.div 
+              key={idx}
+              variants={item}
+              className="flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/80 text-center gap-2 sm:gap-2.5 shadow-xs hover:shadow-sm transition-shadow"
+            >
+              <div className="p-2 sm:p-2.5 bg-brand-primary/10 rounded-xl text-brand-primary">
+                <Icon className="w-5 h-5" />
+              </div>
+              <span className="font-semibold text-slate-800 text-xs sm:text-sm">
+                {badge.text}
+              </span>
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </div>
   );
 }
