@@ -3,9 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 interface Product {
   title: string;
@@ -26,15 +24,13 @@ export default function ProductCard({ product }: { product: Product }) {
     : (typeof product.category === 'string' ? product.category : (product.categoryName || ""));
 
   return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.2 }}
-      className="group flex flex-col bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all overflow-hidden"
-    >
-      <div className="relative w-full aspect-square bg-slate-100 overflow-hidden">
+    <div className="group flex flex-col bg-white rounded-xl border border-slate-300 hover:border-slate-500 transition-colors shadow-2xs overflow-hidden h-full">
+      {/* Machinery Inspection Image Viewport */}
+      <div className="relative w-full aspect-[4/3] bg-slate-100 border-b border-slate-200 overflow-hidden">
         {isPlaceholder ? (
-          <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-            <span className="text-xs text-slate-400 font-medium">Machine Photo</span>
+          <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center text-slate-400 p-4 text-center">
+            <span className="font-mono text-xs font-semibold text-slate-500 uppercase tracking-wider">K.M. Workshop Unit</span>
+            <span className="text-[11px] text-slate-400 mt-0.5">Machine Photo Archive</span>
           </div>
         ) : (
           <Image
@@ -44,32 +40,53 @@ export default function ProductCard({ product }: { product: Product }) {
             unoptimized
             onError={() => setImgError(true)}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-contain p-2"
           />
         )}
-        {categoryName && (
-          <div className="absolute top-2.5 left-2.5">
-            <Badge className="bg-brand-primary/90 backdrop-blur-xs hover:bg-brand-primary text-white border-none px-2.5 py-0.5 text-[11px] font-semibold rounded-lg shadow-xs">
-              {categoryName}
-            </Badge>
-          </div>
-        )}
+
+        {/* Metallurgy & Category Spec Tag */}
+        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-wider bg-white/95 text-slate-700 px-2 py-0.5 rounded border border-slate-300 shadow-2xs">
+            {categoryName || "Food Machinery"}
+          </span>
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-wider bg-slate-900 text-white px-2 py-0.5 rounded border border-slate-700 shadow-2xs">
+            SS-304
+          </span>
+        </div>
       </div>
 
-      <div className="p-4 flex flex-col flex-grow justify-between space-y-3">
-        <h3 className="font-display font-bold text-sm sm:text-base text-slate-900 line-clamp-2 leading-snug group-hover:text-brand-primary transition-colors">
-          {product.title}
-        </h3>
+      {/* Machine Details & Actions */}
+      <div className="p-4 flex flex-col flex-grow justify-between space-y-4">
+        <div>
+          <h3 className="font-semibold text-sm sm:text-base text-slate-900 line-clamp-2 leading-snug group-hover:text-[#162A45] transition-colors">
+            {product.title}
+          </h3>
+          {product.description && (
+            <p className="text-xs text-slate-600 line-clamp-2 mt-1.5 leading-relaxed">
+              {product.description}
+            </p>
+          )}
+        </div>
         
-        <div className="pt-2 flex items-center gap-2">
-          <Button asChild variant="outline" size="sm" className="flex-1 border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-semibold h-8.5 rounded-lg">
-            <Link href={`/products/${product.slug}`}>Details</Link>
+        {/* Considered Industrial Button Pair */}
+        <div className="pt-2 flex items-center gap-2 border-t border-slate-100">
+          <Button 
+            asChild 
+            variant="outline" 
+            size="sm" 
+            className="flex-1 border-slate-300 bg-white hover:bg-slate-100 text-slate-800 text-xs font-semibold h-9 rounded-lg focus-visible:ring-2 focus-visible:ring-slate-900"
+          >
+            <Link href={`/products/${product.slug}`}>Technical Specs</Link>
           </Button>
-          <Button asChild size="sm" className="flex-1 bg-brand-accent hover:bg-brand-accent-hover text-white text-xs font-bold h-8.5 rounded-lg shadow-xs">
-            <Link href={`/contact?product=${product.slug}`}>Get Quote</Link>
+          <Button 
+            asChild 
+            size="sm" 
+            className="flex-1 bg-[#162A45] hover:bg-[#0F1D30] text-white text-xs font-semibold h-9 rounded-lg shadow-2xs focus-visible:ring-2 focus-visible:ring-[#162A45]"
+          >
+            <Link href={`/contact?product=${product.slug}`}>Request Quote</Link>
           </Button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

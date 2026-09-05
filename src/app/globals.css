@@ -1,22 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-primary: #1B365D;
-  --color-brand-secondary: #0F2440;
-  --color-brand-accent: #E8590C;
-  --color-brand-accent-hover: #D14E0A;
-  --color-brand-light: #F8FAFC;
-  --color-brand-steel: #64748B;
-  --color-brand-dark: #1a1a2e;
-  --color-brand-success: #16A34A;
-  --font-family-display: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-family-sans: 'Inter', system-ui, sans-serif;
+  --color-brand-primary: #162A45;
+  --color-brand-secondary: #0F172A;
+  --color-brand-accent: #B45309;
+  --color-brand-accent-hover: #92400E;
+  --color-brand-light: #F4F6F9;
+  --color-brand-steel: #475569;
+  --color-brand-dark: #0F172A;
+  --color-brand-success: #15803D;
+
+  --color-steel-50: #F4F6F9;
+  --color-steel-100: #E2E8F0;
+  --color-steel-200: #CBD5E1;
+  --color-steel-300: #94A3B8;
+  --color-steel-500: #475569;
+  --color-steel-700: #334155;
+  --color-machinery-navy: #162A45;
+  --color-machinery-navy-hover: #0F1D30;
+  --color-graphite-900: #0F172A;
+  --color-safety-amber: #B45309;
+  --color-safety-amber-hover: #92400E;
+
+  --font-family-display: var(--font-ibm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-sans: var(--font-ibm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: var(--font-ibm-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 body {
   font-family: var(--font-family-sans);
   background-color: var(--color-brand-light);
-  color: var(--color-brand-dark);
+  color: var(--color-graphite-900);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -29,10 +43,32 @@ html {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-display);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-family-mono);
 }
 
 p {
   line-height: 1.6;
+}
+
+/* Accessible visible focus states */
+:focus-visible {
+  outline: 2px solid #162A45;
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

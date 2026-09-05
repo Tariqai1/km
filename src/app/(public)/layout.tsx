@@ -23,7 +23,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/shared/Footer";
-import WhatsAppCTA from "@/components/shared/WhatsAppCTA";
+import dynamic from "next/dynamic";
+
+const WhatsAppCTA = dynamic(() => import("@/components/shared/WhatsAppCTA"), {
+  ssr: false,
+});
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -45,10 +49,10 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
   const companyName = settings?.companyName || "K.M. Engineering Works";
   const logoUrl = settings?.logoUrl;
-  const primaryColor = settings?.primaryColor || "#1B365D";
-  const accentColor = settings?.accentColor || "#E8590C";
-  const secondaryColor = settings?.secondaryColor || "#060E1A";
-  const whatsappColor = settings?.whatsappColor || "#25D366";
+  const primaryColor = settings?.primaryColor || "#162A45";
+  const accentColor = settings?.accentColor === "#E8590C" || !settings?.accentColor ? "#B45309" : settings.accentColor;
+  const secondaryColor = settings?.secondaryColor || "#0F172A";
+  const whatsappColor = settings?.whatsappColor || "#15803D";
   const contactPhone = settings?.contactPhone || "+91 98216 69131";
   const contactEmail = settings?.contactEmail || "kmengineering1973@gmail.com";
   const contactAddress = settings?.contactAddress || "Workshop No. 58, Azmi Compound, Sakinaka, Mumbai – 400072";
@@ -123,17 +127,16 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
           <div className="hidden lg:flex items-center gap-4 shrink-0">
             <a 
               href={`tel:${contactPhone}`} 
-              className="text-xs font-semibold text-slate-700 hover:text-orange-600 flex items-center gap-1.5 transition-colors"
+              className="text-xs font-mono font-semibold text-slate-700 hover:text-[#162A45] flex items-center gap-1.5 transition-colors"
             >
               <PhoneCall className="w-3.5 h-3.5 text-emerald-600" /> {contactPhone}
             </a>
             <Button
               asChild
-              className="text-white font-bold text-xs sm:text-sm px-5 h-10 rounded-xl shadow-xs transition-all active:scale-95"
-              style={{ backgroundColor: accentColor }}
+              className="bg-[#162A45] hover:bg-[#0F1D30] text-white font-semibold text-xs px-4 h-9 rounded-lg shadow-2xs transition-colors focus-visible:ring-2 focus-visible:ring-[#162A45]"
             >
               <Link href="/contact">
-                Get Factory Quote <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                Request RFQ <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </Link>
             </Button>
           </div>

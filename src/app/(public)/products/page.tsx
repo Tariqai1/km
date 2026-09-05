@@ -2,12 +2,10 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Search, Loader2, X, SlidersHorizontal, Package, Check, Sparkles } from "lucide-react";
+import { Search, Loader2, X, SlidersHorizontal, Package } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import ProductCard from "@/components/shared/ProductCard";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface Product {
   _id: string;
@@ -196,89 +194,102 @@ function ProductsContent() {
     <div className="min-h-screen bg-slate-50/50 py-8 sm:py-12 md:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         
-        {/* Page Header */}
-        <div className="mb-8 sm:mb-10 text-center md:text-left space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-brand-accent" /> Heavy Machinery Catalog
+        {/* Page Header: Clean Technical Hierarchy */}
+        <div className="mb-6 sm:mb-8 space-y-2">
+          <div className="flex items-center gap-2 text-xs font-mono text-slate-500 uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
+            <span>Mumbai Fabrication Works · Master Equipment Directory</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-slate-900 tracking-tight">
-            Commercial Machinery &amp; Turnkey Plants
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight">
+            Commercial Machinery &amp; Turnkey Processing Lines
           </h1>
           <p className="text-slate-600 text-xs sm:text-sm md:text-base max-w-2xl leading-relaxed">
-            Explore our complete range of certified SS-304 food processing machinery, commercial bakery mixers, and high-frequency vibro screeners.
+            Verified food-grade equipment fabricated in SS-304 &amp; SS-316 stainless steel. Filter by processing category, machine series, or search by raw material below.
           </p>
         </div>
 
-        {/* Search & Category Filter Bar */}
-        <div className="bg-white p-3.5 sm:p-5 md:p-6 rounded-2xl border border-slate-200/90 shadow-xs mb-8 sm:mb-10 space-y-3.5">
+        {/* Search & Industrial Category Filter Directory */}
+        <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-300 shadow-2xs mb-8 space-y-4">
           
-          <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input
-              type="text"
-              placeholder="Search machinery by name, model or application..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="pl-10 pr-10 h-11 bg-slate-50/80 border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white text-xs sm:text-sm"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => {
-                  setSearchQuery("");
-                  updateURL(selectedCategory, "");
-                }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+          {/* Top Bar: Search Input & Unit Count */}
+          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+            <div className="relative flex-1">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Input
+                type="text"
+                placeholder="Search machinery by model code (e.g. Spiral Mixer, Vibro Sifter, Dicing)..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="pl-10 pr-10 h-10 bg-slate-50 border-slate-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:bg-white text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-[#162A45]"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    updateURL(selectedCategory, "");
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 focus-visible:ring-2 focus-visible:ring-slate-900 rounded"
+                  aria-label="Clear search"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            <div className="font-mono text-xs text-slate-600 px-3 py-2 bg-slate-100 rounded border border-slate-200 shrink-0 text-center">
+              {loading ? "Searching..." : `Showing ${products.length} Verified Systems`}
+            </div>
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-2 border-t border-slate-100">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1.5 flex items-center gap-1">
-              <SlidersHorizontal className="w-3.5 h-3.5" /> Filter:
-            </span>
+          {/* Category Directory Segmented Index */}
+          <div className="pt-3 border-t border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-mono text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                <SlidersHorizontal className="w-3.5 h-3.5" /> Filter by Production Line:
+              </span>
+              {isFiltered && (
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="text-xs font-mono text-red-600 hover:text-red-700 flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-red-600 rounded px-1"
+                >
+                  <X className="w-3.5 h-3.5" /> Reset Filters
+                </button>
+              )}
+            </div>
 
-            <Button
-              variant={selectedCategory === "all" ? "default" : "outline"}
-              size="sm"
-              onClick={() => handleCategoryChange("all")}
-              className={`rounded-full text-xs font-semibold h-7.5 px-3 ${
-                selectedCategory === "all"
-                  ? "bg-brand-primary text-white hover:bg-brand-primary/90"
-                  : "border-slate-200 text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              All Machinery
-            </Button>
-
-            {categories.map((cat) => (
-              <Button
-                key={cat._id || cat.slug}
-                variant={selectedCategory === cat.slug ? "default" : "outline"}
-                size="sm"
-                onClick={() => handleCategoryChange(cat.slug)}
-                className={`rounded-full text-xs font-semibold h-7.5 px-3 ${
-                  selectedCategory === cat.slug
-                    ? "bg-brand-primary text-white hover:bg-brand-primary/90"
-                    : "border-slate-200 text-slate-600 hover:bg-slate-50"
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2" role="tablist" aria-label="Machinery Categories">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={selectedCategory === "all"}
+                onClick={() => handleCategoryChange("all")}
+                className={`font-mono text-xs font-medium px-3 py-1.5 rounded transition-colors focus-visible:ring-2 focus-visible:ring-[#162A45] ${
+                  selectedCategory === "all"
+                    ? "bg-[#162A45] text-white border border-[#162A45] shadow-2xs"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-300"
                 }`}
               >
-                {cat.name}
-              </Button>
-            ))}
+                [ALL] All Equipment
+              </button>
 
-            {isFiltered && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearFilters}
-                className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 h-7.5 ml-auto font-medium"
-              >
-                <X className="w-3.5 h-3.5 mr-1" /> Reset
-              </Button>
-            )}
+              {categories.map((cat, idx) => (
+                <button
+                  key={cat._id || cat.slug}
+                  type="button"
+                  role="tab"
+                  aria-selected={selectedCategory === cat.slug}
+                  onClick={() => handleCategoryChange(cat.slug)}
+                  className={`font-mono text-xs font-medium px-3 py-1.5 rounded transition-colors focus-visible:ring-2 focus-visible:ring-[#162A45] ${
+                    selectedCategory === cat.slug
+                      ? "bg-[#162A45] text-white border border-[#162A45] shadow-2xs"
+                      : "bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-300"
+                  }`}
+                >
+                  [0{idx + 1}] {cat.name}
+                </button>
+              ))}
+            </div>
           </div>
 
         </div>
@@ -287,40 +298,32 @@ function ProductsContent() {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 animate-pulse">
-                <div className="h-48 bg-slate-100 rounded-xl"></div>
+              <div key={i} className="bg-white rounded-xl border border-slate-200 p-4 space-y-3 animate-pulse">
+                <div className="h-44 bg-slate-100 rounded-lg"></div>
                 <div className="h-4 bg-slate-100 rounded w-3/4"></div>
                 <div className="h-3 bg-slate-100 rounded w-1/2"></div>
-                <div className="h-9 bg-slate-100 rounded-xl mt-4"></div>
+                <div className="h-9 bg-slate-100 rounded-lg mt-4"></div>
               </div>
             ))}
           </div>
         ) : products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <AnimatePresence>
-              {products.map((prod, idx) => (
-                <motion.div
-                  key={prod._id || prod.slug || idx}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ delay: idx * 0.04 }}
-                >
-                  <ProductCard product={prod} />
-                </motion.div>
-              ))}
-            </AnimatePresence>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-opacity duration-200">
+            {products.map((prod, idx) => (
+              <div key={prod._id || prod.slug || idx} className="h-full">
+                <ProductCard product={prod} />
+              </div>
+            ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-md mx-auto space-y-4">
-            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto text-slate-400">
-              <Package className="w-8 h-8" />
+          <div className="bg-white rounded-xl border border-slate-300 p-12 text-center max-w-md mx-auto space-y-4">
+            <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center mx-auto text-slate-500 border border-slate-200">
+              <Package className="w-7 h-7" />
             </div>
-            <h3 className="font-bold text-lg text-slate-900">No machinery matching your filter</h3>
-            <p className="text-xs text-slate-500">
-              Try searching with different keywords or clear your active category filters.
+            <h3 className="font-semibold text-base text-slate-900">No machinery matching your filter</h3>
+            <p className="text-xs text-slate-600">
+              Try searching with different technical keywords or reset your active category filters.
             </p>
-            <Button onClick={clearFilters} variant="outline" size="sm" className="font-semibold">
+            <Button onClick={clearFilters} variant="outline" size="sm" className="font-semibold border-slate-300">
               Clear All Filters
             </Button>
           </div>

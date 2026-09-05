@@ -88,79 +88,80 @@ export default function Home() {
 
   const filteredProducts = selectedCategoryFilter === "all"
     ? products
-    : products.filter(p => (p.categoryName || p.category || "").toLowerCase().includes(selectedCategoryFilter.toLowerCase()));
+    : products.filter((p) => {
+        const cName =
+          typeof p.category === "object" && p.category !== null
+            ? p.category.name || ""
+            : typeof p.category === "string"
+            ? p.category
+            : p.categoryName || "";
+        return cName.toLowerCase().includes(selectedCategoryFilter.toLowerCase());
+      });
 
   const primaryPhone = settings?.contactPhone || "+91 9821669131";
 
   return (
     <div className="bg-white overflow-hidden selection:bg-brand-accent selection:text-white">
       
-      {/* 1. HERO SECTION (High-Impact Industrial Navy with Glowing Halo) */}
-      <section className="relative bg-[#071324] text-white min-h-[78vh] sm:min-h-[85vh] flex items-center overflow-hidden">
-        
-        {/* Ambient Gradient Lighting */}
-        <div className="absolute top-0 right-0 w-[550px] h-[550px] bg-brand-accent/15 rounded-full blur-[120px] pointer-events-none -z-0"></div>
-        <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-blue-600/15 rounded-full blur-[100px] pointer-events-none -z-0"></div>
-        
-        {/* Subtle Engineering Grid Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-8 pb-12 sm:pt-12 sm:pb-16 max-w-7xl">
+      {/* 1. HERO SECTION (High-Clarity Industrial Workshop with Milled Hairlines) */}
+      <section className="relative bg-[#F4F6F9] text-slate-900 border-b border-slate-300 py-10 sm:py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left Column: Hero Copy & Value Proposition */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-7 space-y-5"
-            >
+            {/* Left Column: Direct Procurement Information & Fabrication Credentials */}
+            <div className="lg:col-span-7 space-y-6">
               
-              {/* Trust Tag */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/15 text-slate-200 text-xs font-semibold backdrop-blur-md shadow-inner">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>ISO &amp; GST Registered Food Machinery Manufacturer</span>
+              {/* Contextual Facility & Credentials Label (Integrated, not a floating pill) */}
+              <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-600">
+                <span className="inline-flex items-center gap-1.5 font-semibold text-slate-800">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" aria-hidden="true" />
+                  MUMBAI WORKS · WORKSHOP NO. 58
+                </span>
+                <span className="text-slate-300">|</span>
+                <span>ISO 9001 &amp; GST REGISTERED</span>
+                <span className="text-slate-300">|</span>
+                <span>SS-304 / SS-316 SPECIALIST</span>
               </div>
 
-              {/* Main Headline */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display tracking-tight text-white leading-tight">
-                Precision-Engineered <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-200 to-orange-400">Food &amp; Bakery</span> Machinery
+              {/* Main Engineering Headline */}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#0F172A] leading-[1.15]">
+                Commercial Food &amp; Bakery Processing Machinery Fabricated in SS-304 Stainless Steel
               </h1>
 
-              {/* Subheading */}
-              <p className="text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl font-normal">
-                {settings?.heroSubheading || "K.M. Engineering Works is Mumbai's trusted manufacturer of high-performance Tutti Frutti processing plants, commercial spiral bakery mixers, potato chips lines, and custom stainless steel machinery."}
+              {/* Industrial Value Description */}
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl">
+                {settings?.heroSubheading || "K.M. Engineering Works is Mumbai's trusted manufacturer of high-performance Tutti Frutti processing plants, commercial spiral bakery mixers, potato chips lines, and custom stainless steel machinery built for 24/7 reliability."}
               </p>
 
-              {/* 4 Fast Feature Chips */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 pt-1">
-                <div className="bg-white/5 backdrop-blur-sm p-2.5 rounded-xl border border-white/10 text-center">
-                  <div className="text-xs font-bold text-white">100% SS-304</div>
-                  <div className="text-[10px] text-slate-400">Certified Food Grade</div>
+              {/* Operational Specifications Anchored to Fabrication */}
+              <div className="border-y border-slate-300 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                <div>
+                  <span className="text-[11px] font-mono text-slate-500 uppercase block">Metallurgy</span>
+                  <span className="font-semibold text-slate-900">SS-304 &amp; SS-316</span>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm p-2.5 rounded-xl border border-white/10 text-center">
-                  <div className="text-xs font-bold text-orange-400">Zero Vibration</div>
-                  <div className="text-[10px] text-slate-400">Balanced Heavy Base</div>
+                <div>
+                  <span className="text-[11px] font-mono text-slate-500 uppercase block">Vibration Control</span>
+                  <span className="font-semibold text-slate-900">Heavy Cast Iron Bed</span>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm p-2.5 rounded-xl border border-white/10 text-center">
-                  <div className="text-xs font-bold text-emerald-400">1-Yr Warranty</div>
-                  <div className="text-[10px] text-slate-400">Comprehensive Spares</div>
+                <div>
+                  <span className="text-[11px] font-mono text-slate-500 uppercase block">Verification</span>
+                  <span className="font-semibold text-slate-900">100% Pre-Dispatch Trial</span>
                 </div>
-                <div className="bg-white/5 backdrop-blur-sm p-2.5 rounded-xl border border-white/10 text-center">
-                  <div className="text-xs font-bold text-blue-400">Pan-India</div>
-                  <div className="text-[10px] text-slate-400">On-Site Dispatch</div>
+                <div>
+                  <span className="text-[11px] font-mono text-slate-500 uppercase block">Field Support</span>
+                  <span className="font-semibold text-slate-900">Pan-India OEM Spares</span>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-3">
+              {/* Action Buttons: Considered Industrial Hierarchy */}
+              <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Button
                   asChild
                   size="default"
-                  className="bg-orange-600 hover:bg-orange-500 text-white font-bold px-6 h-11 rounded-xl shadow-lg shadow-orange-600/30 text-xs sm:text-sm transition-transform active:scale-[0.98]"
+                  className="bg-[#162A45] hover:bg-[#0F1D30] text-white font-semibold px-6 h-11 rounded-lg shadow-xs text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-[#162A45]"
                 >
-                  <Link href="/products">
-                    Explore Machines <ArrowRight className="w-4 h-4 ml-1.5" />
+                  <Link href="/contact">
+                    Request Machinery Spec Sheet / RFQ <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </Button>
 
@@ -168,49 +169,43 @@ export default function Home() {
                   asChild
                   size="default"
                   variant="outline"
-                  className="border-white/20 text-white hover:bg-white/10 font-semibold px-5 h-11 rounded-xl backdrop-blur-md text-xs sm:text-sm"
+                  className="border-slate-300 bg-white hover:bg-slate-100 text-slate-800 font-semibold px-5 h-11 rounded-lg text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-slate-900"
+                >
+                  <Link href="/products">
+                    Browse 50+ Models
+                  </Link>
+                </Button>
+
+                <Button
+                  asChild
+                  size="default"
+                  variant="outline"
+                  className="border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-medium px-4 h-11 rounded-lg text-xs"
                 >
                   <a
                     href={`https://wa.me/91${primaryPhone.replace(/\D/g, "")}?text=Hello%20KM%20Engineering,%20I%20want%20to%20inquire%20about%20machinery.`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <MessageSquare className="w-4 h-4 mr-1.5 text-emerald-400" /> WhatsApp Sales
+                    <MessageSquare className="w-3.5 h-3.5 mr-1.5 text-emerald-600" /> WhatsApp Sales Desk
                   </a>
-                </Button>
-
-                <Button
-                  asChild
-                  size="lg"
-                  variant="ghost"
-                  className="text-slate-300 hover:text-white hover:bg-white/10 text-xs font-semibold px-4"
-                >
-                  <Link href="/connect">
-                    <QrCode className="w-3.5 h-3.5 mr-1.5 text-brand-accent" /> Digital Business Profile
-                  </Link>
                 </Button>
               </div>
 
-            </motion.div>
+            </div>
 
-            {/* Right Column: 3D Multi-Image Showcase Slider & Founder Guarantee */}
+            {/* Right Column: Orchestrated Workshop Machine Inspection Viewport */}
             {settings?.showHeroShowcase !== false && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="lg:col-span-5 relative"
-              >
+              <div className="lg:col-span-5 relative">
                 <HeroShowcaseSlider 
                   images={settings?.heroImages} 
                   fallbackProducts={products} 
                 />
-              </motion.div>
+              </div>
             )}
 
           </div>
         </div>
-
       </section>
 
       {/* 2. TRUST PILLARS BAR */}
@@ -247,33 +242,26 @@ export default function Home() {
 
       {/* 4. TURNKEY MACHINERY CATEGORIES GRID */}
       {settings?.showCategoriesSection !== false && (
-        <section className="py-20 bg-slate-50 relative">
+        <section className="py-16 sm:py-20 bg-white border-b border-slate-200">
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             
-            <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wider">
-                <Layers className="w-3.5 h-3.5 text-brand-accent" /> Manufacturing Capabilities
-              </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display tracking-tight text-slate-900">
-                Turnkey Food Processing Plants &amp; Machines
+            <div className="max-w-3xl mx-auto mb-10 text-center space-y-2">
+              <span className="font-mono text-xs text-slate-500 uppercase tracking-wider block">
+                Manufacturing Scope · Turnkey Plants
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                Turnkey Food Processing Plants &amp; Production Lines
               </h2>
-              <div className="w-16 h-1 bg-brand-accent mx-auto rounded-full"></div>
-              <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed">
-                Custom-engineered processing lines fabricated in certified SS-304 &amp; SS-316 stainless steel for maximum operational throughput.
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                Custom-engineered processing lines fabricated in certified SS-304 &amp; SS-316 stainless steel for maximum operational throughput and zero contamination.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {categories.map((cat, idx) => (
-                <motion.div
-                  key={cat.slug || idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.08 }}
-                >
+                <div key={cat.slug || idx}>
                   <CategoryCard category={cat} />
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -283,22 +271,22 @@ export default function Home() {
 
       {/* 5. BESTSELLING MACHINERY SHOWCASE (With Category Filters) */}
       {settings?.showFeaturedProducts !== false && (
-        <section className="py-16 sm:py-20 bg-white">
+        <section className="py-16 sm:py-20 bg-slate-50/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 border-b border-slate-200 pb-4">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent text-xs font-bold uppercase tracking-wider mb-2">
-                  <Sparkles className="w-3.5 h-3.5" /> High-Performance Engineering
-                </div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display tracking-tight text-slate-900">
+                <span className="font-mono text-xs text-slate-500 uppercase tracking-wider block mb-1">
+                  Machinery Catalog · Active Stock &amp; Custom Builds
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
                   Featured Industrial Machinery
                 </h2>
               </div>
 
-              <Button asChild variant="outline" size="sm" className="border-slate-300 font-semibold text-slate-700 hover:bg-slate-50 shrink-0 h-9 rounded-xl">
+              <Button asChild variant="outline" size="sm" className="border-slate-300 font-semibold text-slate-800 hover:bg-slate-100 shrink-0 h-9 rounded-lg text-xs">
                 <Link href="/products">
-                  View All Machinery &rarr;
+                  View Full Catalog (50+ Models) <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                 </Link>
               </Button>
             </div>
@@ -306,15 +294,9 @@ export default function Home() {
             {/* Machinery Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredProducts.map((prod, idx) => (
-                <motion.div
-                  key={prod.slug || idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.08 }}
-                >
+                <div key={prod.slug || idx}>
                   <ProductCard product={prod} />
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -331,44 +313,39 @@ export default function Home() {
       {/* 8. COMPANY HERITAGE & INFRASTRUCTURE */}
       {settings?.showAboutSection !== false && <AboutSection />}
 
-      {/* 9. FACTORY MILESTONES COUNTER SECTION */}
+      {/* 9. FACTORY VERIFICATION & MANUFACTURING METRICS */}
       {settings?.showStatsCounter !== false && (
-        <section className="py-14 sm:py-16 bg-[#071324] text-white border-t border-slate-800">
+        <section className="py-12 bg-[#F4F6F9] border-y border-slate-300">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
-              {settings?.companyStats?.map((stat: { value: string, label: string }, idx: number) => (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.95 }} 
-                  whileInView={{ opacity: 1, scale: 1 }} 
-                  viewport={{ once: true }} 
-                  transition={{ delay: idx * 0.1 }}
-                  className="p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10"
-                >
-                  <div className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-brand-accent mb-1">{stat.value}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 font-medium">{stat.label}</div>
-                </motion.div>
-              ))}
-              {(!settings?.companyStats || settings.companyStats.length === 0) && (
-                <>
-                  <div className="p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-brand-accent mb-1">15+</div>
-                    <div className="text-xs sm:text-sm text-slate-300 font-medium">Years Manufacturing</div>
-                  </div>
-                  <div className="p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-white mb-1">500+</div>
-                    <div className="text-xs sm:text-sm text-slate-300 font-medium">Machines Delivered</div>
-                  </div>
-                  <div className="p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-emerald-400 mb-1">200+</div>
-                    <div className="text-xs sm:text-sm text-slate-300 font-medium">Corporate Clients</div>
-                  </div>
-                  <div className="p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/10">
-                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-blue-400 mb-1">Pan-India</div>
-                    <div className="text-xs sm:text-sm text-slate-300 font-medium">Service Network</div>
-                  </div>
-                </>
-              )}
+            <div className="border border-slate-300 bg-white rounded-xl divide-y sm:divide-y-0 sm:divide-x divide-slate-200 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 shadow-2xs">
+              <div className="p-6">
+                <div className="font-mono text-xs text-slate-500 uppercase tracking-wider mb-1">Operational History</div>
+                <div className="text-2xl sm:text-3xl font-bold font-mono text-[#0F172A]">15+ Years</div>
+                <p className="text-xs text-slate-600 mt-1.5 leading-normal">
+                  Continuous fabrication experience at Workshop No. 58, Sakinaka, Mumbai.
+                </p>
+              </div>
+              <div className="p-6">
+                <div className="font-mono text-xs text-slate-500 uppercase tracking-wider mb-1">Industrial Deliveries</div>
+                <div className="text-2xl sm:text-3xl font-bold font-mono text-[#0F172A]">500+ Units</div>
+                <p className="text-xs text-slate-600 mt-1.5 leading-normal">
+                  Commercial bakery mixers, vibro sifters, and snack frying lines commissioned.
+                </p>
+              </div>
+              <div className="p-6">
+                <div className="font-mono text-xs text-slate-500 uppercase tracking-wider mb-1">Metallurgical Standard</div>
+                <div className="text-2xl sm:text-3xl font-bold font-mono text-[#15803D]">SS-304 / 316</div>
+                <p className="text-xs text-slate-600 mt-1.5 leading-normal">
+                  Certified food-grade contact fabrication with zero toxic metal migration.
+                </p>
+              </div>
+              <div className="p-6">
+                <div className="font-mono text-xs text-slate-500 uppercase tracking-wider mb-1">Quality Assurance</div>
+                <div className="text-2xl sm:text-3xl font-bold font-mono text-[#B45309]">100% Tested</div>
+                <p className="text-xs text-slate-600 mt-1.5 leading-normal">
+                  Every machine undergoes live continuous load trials before transport dispatch.
+                </p>
+              </div>
             </div>
           </div>
         </section>

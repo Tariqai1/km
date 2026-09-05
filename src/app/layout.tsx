@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import dbConnect from "@/lib/db";
 import { Settings } from "@/models/Settings";
 
-const plusJakartaSans = Plus_Jakarta_Sans({ 
+const ibmPlexSans = IBM_Plex_Sans({ 
   subsets: ["latin"],
-  variable: "--font-family-display"
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-sans",
+  display: "swap"
 });
 
-const inter = Inter({ 
+const ibmPlexMono = IBM_Plex_Mono({ 
   subsets: ["latin"],
-  variable: "--font-family-sans"
+  weight: ["400", "500", "600"],
+  variable: "--font-ibm-mono",
+  display: "swap"
 });
 
 export const metadata: Metadata = {
@@ -150,7 +154,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${plusJakartaSans.variable} ${inter.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
       <head>
         <script
           type="application/ld+json"

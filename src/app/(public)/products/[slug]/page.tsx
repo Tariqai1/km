@@ -208,30 +208,30 @@ export default async function ProductDetailPage({
             {/* Title & Badge Header Card */}
             <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
               <div className="flex flex-wrap items-center gap-2.5">
-                <Badge
-                  variant="secondary"
-                  className="bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/15 font-semibold px-3 py-1 text-xs"
-                >
+                <span className="font-mono text-xs font-semibold uppercase tracking-wider bg-slate-100 text-slate-800 border border-slate-300 px-2.5 py-1 rounded">
                   {product.categoryName}
-                </Badge>
-                <span className="text-xs text-slate-400 font-medium">
-                  Model Code: KM-{product.slug.toUpperCase().slice(0, 8)}
+                </span>
+                <span className="font-mono text-xs text-slate-500">
+                  MODEL: KM-{product.slug.toUpperCase().slice(0, 8)}
+                </span>
+                <span className="font-mono text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-300 px-2 py-0.5 rounded ml-auto">
+                  SS-304 CERTIFIED
                 </span>
               </div>
 
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display text-slate-900 tracking-tight leading-snug">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight leading-snug">
                 {product.title}
               </h1>
 
-              {/* Action Buttons */}
+              {/* Action Buttons: Industrial Hierarchy */}
               <div className="flex flex-wrap items-center gap-2.5 pt-1">
                 <Button
                   asChild
                   size="default"
-                  className="bg-brand-accent hover:bg-brand-accent-hover text-white font-bold px-5 h-10.5 rounded-xl shadow-xs text-xs sm:text-sm"
+                  className="bg-[#162A45] hover:bg-[#0F1D30] text-white font-semibold px-5 h-10 rounded-lg shadow-2xs text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-[#162A45]"
                 >
                   <a href="#quote-form">
-                    <PhoneCall className="w-4 h-4 mr-1.5" /> Get Instant Quote
+                    <PhoneCall className="w-4 h-4 mr-1.5" /> Request Equipment BOM / Quote
                   </a>
                 </Button>
 
@@ -243,7 +243,7 @@ export default async function ProductDetailPage({
                     asChild
                     variant="outline"
                     size="default"
-                    className="border-slate-300 hover:bg-slate-50 font-medium h-10.5 text-xs sm:text-sm rounded-xl"
+                    className="border-slate-300 hover:bg-slate-50 font-medium h-10 text-xs sm:text-sm rounded-lg focus-visible:ring-2 focus-visible:ring-slate-900"
                   >
                     <a href={product.brochureUrl} target="_blank" rel="noopener noreferrer">
                       <FileText className="w-4 h-4 mr-1.5 text-slate-600" /> Download Brochure
