@@ -18,19 +18,16 @@ export default function Footer({ companyName = "K.M. Engineering Works", setting
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-10">
           {/* Company Info */}
           <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-white p-1 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+            <div className="mb-4">
+              <div className="bg-white p-2 rounded-xl inline-block shadow-sm">
                 <Image
-                  src="/logo.png"
-                  alt="K.M. Engineering Works Logo"
-                  width={40}
-                  height={40}
-                  className="object-contain"
+                  src="/logo-full.png"
+                  alt="K.M. Engineering Works"
+                  width={200}
+                  height={50}
+                  className="h-9 w-auto object-contain"
                 />
               </div>
-              <h3 className="text-base sm:text-lg font-display font-bold text-white">
-                {companyName}
-              </h3>
             </div>
             <p className="text-brand-steel text-xs sm:text-sm leading-relaxed mb-4">
               {parsedSettings?.heroSubheading || "Precision-Engineered Food Processing & Bakery Machinery. Trusted manufacturer based in Mumbai."}

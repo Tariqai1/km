@@ -427,26 +427,21 @@ export default function A4LeafletGenerator() {
                 <div>
                   
                   {/* 1. Industrial Executive Header */}
-                  <div className="flex items-center justify-between gap-3 pb-2.5 border-b-2 border-[#162A45]">
+                  <div className="flex items-center justify-between gap-3 pb-2 border-b-2 border-[#162A45]">
                     <div className="flex items-center gap-3">
-                      <div className="w-13 h-13 bg-white p-1 rounded-lg border border-slate-200 shadow-2xs flex items-center justify-center shrink-0">
+                      <div className="h-12 w-auto flex items-center">
                         <img 
-                          src="/logo.png" 
-                          alt="K.M. Engineering Works" 
-                          className="w-full h-full object-contain" 
+                          src="/logo-full.png" 
+                          alt="K.M. Engineering Works - Industrial Machinery Specialist" 
+                          className="h-11 w-auto object-contain" 
                         />
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h1 className="text-xl font-black font-display tracking-tight text-[#0F172A] uppercase leading-none">
-                            K.M. ENGINEERING WORKS
-                          </h1>
+                      <div className="hidden sm:block border-l border-slate-300 pl-3">
+                        <div className="text-[9px] font-bold text-[#B45309] uppercase tracking-wider">
+                          Heavy Food Machinery Fabricator
                         </div>
-                        <div className="text-[10px] font-bold text-[#B45309] tracking-wide uppercase mt-0.5">
-                          Manufacturer of Food &amp; Bakery Processing Machinery
-                        </div>
-                        <div className="text-[9px] text-slate-500 font-medium">
-                          Govt. Registered • ISO 9001:2015 &amp; GST Verified • Mumbai Works Est. 1973
+                        <div className="text-[8.5px] text-slate-500 font-medium">
+                          ISO 9001:2015 &amp; GST Registered • Est. 1973
                         </div>
                       </div>
                     </div>
@@ -604,8 +599,8 @@ export default function A4LeafletGenerator() {
             {/* Mobile Header Banner */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg text-white">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white p-1 shrink-0 flex items-center justify-center">
-                  <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+                <div className="h-10 w-auto flex items-center bg-white p-1 rounded-lg shrink-0">
+                  <img src="/logo-full.png" alt="Logo" className="h-8 w-auto object-contain" />
                 </div>
                 <div>
                   <h2 className="font-black text-lg text-white uppercase tracking-tight">

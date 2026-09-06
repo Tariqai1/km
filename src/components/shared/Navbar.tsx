@@ -202,31 +202,18 @@ export default function Navbar({ settings }: NavbarProps) {
             {/* BRANDING & IDENTITY (LEFT AREA) */}
             <Link 
               href="/" 
-              className="flex items-center gap-3 shrink-0 group focus:outline-hidden"
+              className="flex items-center shrink-0 group focus:outline-hidden py-1"
               aria-label={`${companyName} - Home`}
             >
-              <div className="relative h-11 w-11 sm:h-12 sm:w-12 shrink-0 rounded-lg bg-white border border-slate-200 p-1 flex items-center justify-center shadow-2xs group-hover:border-slate-300 transition-colors">
+              <div className="relative h-11 sm:h-13 w-auto flex items-center">
                 <Image
-                  src={settings?.logoUrl || "/logo.png"}
-                  alt={companyName}
-                  width={44}
-                  height={44}
-                  className="object-contain"
+                  src="/logo-full.png"
+                  alt="K.M. Engineering Works - Industrial Machinery Specialist"
+                  width={260}
+                  height={65}
+                  className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.01]"
                   priority
                 />
-              </div>
-
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-slate-900 tracking-tight text-base sm:text-lg leading-tight uppercase font-display group-hover:text-[#162A45] transition-colors">
-                    K.M. Engineering Works
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-[11px] sm:text-xs text-slate-500 font-medium">
-                  <span>Industrial Machinery Specialist</span>
-                  <span className="hidden sm:inline text-slate-300">•</span>
-                  <span className="hidden sm:inline text-slate-400 font-normal">Est. 1973</span>
-                </div>
               </div>
             </Link>
 
@@ -449,23 +436,15 @@ export default function Navbar({ settings }: NavbarProps) {
       >
         {/* Drawer Header */}
         <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="h-9 w-9 rounded-md bg-white border border-slate-200 p-1 flex items-center justify-center shrink-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="h-8 w-auto flex items-center">
               <Image
-                src={settings?.logoUrl || "/logo.png"}
+                src="/logo-full.png"
                 alt={companyName}
-                width={36}
-                height={36}
-                className="object-contain"
+                width={170}
+                height={42}
+                className="h-8 w-auto object-contain"
               />
-            </div>
-            <div className="min-w-0">
-              <span className="font-extrabold text-slate-900 text-sm block truncate uppercase font-display leading-tight">
-                {companyName}
-              </span>
-              <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Mumbai Factory Open
-              </span>
             </div>
           </div>
 
