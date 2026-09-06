@@ -25,6 +25,7 @@ export default function Footer({ companyName = "K.M. Engineering Works", setting
                   alt="K.M. Engineering Works"
                   width={200}
                   height={50}
+                  unoptimized
                   className="h-9 w-auto object-contain"
                 />
               </div>

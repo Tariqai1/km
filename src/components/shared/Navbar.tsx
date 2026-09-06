@@ -209,10 +209,11 @@ export default function Navbar({ settings }: NavbarProps) {
                 <Image
                   src="/logo-full.png"
                   alt="K.M. Engineering Works - Industrial Machinery Specialist"
-                  width={260}
-                  height={65}
-                  className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.01]"
+                  width={280}
+                  height={68}
+                  unoptimized
                   priority
+                  className="h-11 sm:h-13 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.01]"
                 />
               </div>
             </Link>
@@ -443,6 +444,8 @@ export default function Navbar({ settings }: NavbarProps) {
                 alt={companyName}
                 width={170}
                 height={42}
+                unoptimized
+                priority
                 className="h-8 w-auto object-contain"
               />
             </div>
