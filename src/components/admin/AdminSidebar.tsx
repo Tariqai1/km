@@ -208,8 +208,8 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile Top App Bar */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 px-4 flex items-center justify-between z-40">
+      {/* Mobile Top App Bar (Hidden during print) */}
+      <header className="print:hidden lg:hidden fixed top-0 left-0 right-0 h-14 bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 px-4 flex items-center justify-between z-40">
         <div className="flex items-center gap-2.5">
           <div className="h-7 w-7 rounded-lg bg-brand-primary text-white flex items-center justify-center font-bold text-xs">
             KM
@@ -228,18 +228,18 @@ export function AdminSidebar() {
         </Button>
       </header>
 
-      {/* Mobile Drawer Backdrop Overlay */}
+      {/* Mobile Drawer Backdrop Overlay (Hidden during print) */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-200"
+          className="print:hidden fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-200"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Sidebar Container (Desktop Persistent + Mobile Drawer) */}
+      {/* Sidebar Container (Desktop Persistent + Mobile Drawer - Hidden during print) */}
       <aside
         className={cn(
-          "fixed top-0 left-0 h-full w-64 z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static shrink-0",
+          "print:hidden fixed top-0 left-0 h-full w-64 z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static shrink-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

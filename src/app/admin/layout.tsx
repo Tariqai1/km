@@ -49,11 +49,11 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row print:bg-white print:block print:min-h-0">
       <AdminSidebar />
-      <div className="flex-1 flex flex-col min-h-screen pt-16 lg:pt-0">
+      <div className="flex-1 flex flex-col min-h-screen pt-16 lg:pt-0 print:pt-0 print:min-h-0 print:block">
         {/* Top bar can go here if needed, but sidebar has mobile header */}
-        <main className="flex-1 p-6 lg:p-8 overflow-y-auto w-full max-w-7xl mx-auto">
+        <main className="flex-1 p-6 lg:p-8 overflow-y-auto w-full max-w-7xl mx-auto print:p-0 print:m-0 print:max-w-none print:w-full print:overflow-visible">
           {children}
         </main>
       </div>

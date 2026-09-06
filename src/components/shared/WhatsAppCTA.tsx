@@ -8,7 +8,7 @@ export default function WhatsAppCTA() {
   const waLink = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="hidden lg:flex fixed bottom-6 right-6 z-50">
       <a
         href={waLink}
         target="_blank"
@@ -17,7 +17,7 @@ export default function WhatsAppCTA() {
         className="flex items-center gap-2 bg-[#15803D] hover:bg-[#166534] text-white px-4 py-3 rounded-full shadow-lg transition-colors border border-emerald-500 focus-visible:ring-2 focus-visible:ring-emerald-700"
       >
         <MessageCircle className="w-5 h-5 fill-white" />
-        <span className="font-semibold text-xs tracking-wide hidden sm:inline">WhatsApp Sales Desk</span>
+        <span className="font-semibold text-xs tracking-wide">WhatsApp Sales Desk</span>
       </a>
     </div>
   );
